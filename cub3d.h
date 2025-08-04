@@ -5,9 +5,6 @@
 # include <fcntl.h>
 # include <math.h>
 # include <sys/time.h>
-# include "cub_define.h"
-# include "cub_struct.h"
-# include "../mlx_linux/mlx.h"
 
 typedef struct s_image
 {
@@ -20,7 +17,8 @@ typedef struct s_player
 {
 	double x;
 	double y;
-	double dir;
+	double dir_x;
+	double dir_y;
 	double view;
 }              t_player;
 
