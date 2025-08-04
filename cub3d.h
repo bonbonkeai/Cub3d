@@ -9,7 +9,55 @@
 # include "cub_struct.h"
 # include "../mlx_linux/mlx.h"
 
+typedef struct s_image
+{
+	char *data;
+	int width;
+	int height;
+}              t_image;
 
+typedef struct s_player
+{
+	double x;
+	double y;
+	double dir;
+	double view;
+}              t_player;
+
+typedef struct s_ray
+{
+	double angle;
+	double cible_x;
+	double ciblde_y;
+}			t_ray;
+
+typedef struct s_texture
+{
+	t_image no;
+	t_image so;
+	t_image we;
+	t_image ea;
+}			t_texture;
+
+typedef struct s_keys
+{
+	int w;
+	int a;
+	int s;
+	int d;
+	int left;
+	int right;
+}			t_keys;
+
+type struct s_game
+{
+	t_player player;
+	t_keys keys;
+	char **map;
+	t_ray ray;
+	t_texture texture;
+
+}		t_game;
 
 
 #endif
