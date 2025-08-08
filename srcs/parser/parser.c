@@ -43,7 +43,7 @@ static int	process_line(t_game *game, t_parse *p, char *line)
 	return (0);
 }
 
-static int	final_checks(t_game *game, t_parse *p)
+static int  final_checks(t_game *game, t_parse *p)
 {
 	if (!PARSE_GOT_ALL(p))
 		return (ft_fprintf(2, "Error: Missing parameters in %s\n", p->filepath), 0);
@@ -75,6 +75,19 @@ int	parse_cub_file(const char *filepath, t_game *game)
 		return (free_raw_lines(p.raw_lines, p.raw_count), 0);
 	free_raw_lines(p.raw_lines, p.raw_count);
 	return (1);
+    // if (!final_checks(game, &p))
+    // {
+    //     if (p.raw_lines)
+    //             free_raw_lines(p.raw_lines, p.raw_count);
+    //     else
+    //     {
+    //             free_map(game->map);
+    //             game->map = NULL;
+    //     }
+    //     return (0);
+    // }
+    // free_raw_lines(p.raw_lines, p.raw_count);
+    // return (1);
 }
 
 // int	parse_cub_file(const char *filepath, t_game *game)

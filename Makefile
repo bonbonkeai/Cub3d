@@ -1,8 +1,6 @@
 NAME		=	cub3D
 BONUS		=	cub3D_bonus
 LIBFT		=	libft/libft.a
-INC			=	includes/
-INC_B		=	bonus/includes/
 SRC_DIR		=	srcs/
 SRC_DIR_B	=	bonus/srcs/
 OBJ_DIR		=	obj/
@@ -18,7 +16,29 @@ FLAGS		=	-Lmlx_linux -lmlx -L/usr/lib/X11 -lXext -lX11 -lm
 RM			=	rm -f
 
 # source files
-SRCS		=	$(SRC_DIR)cub3d.c \
+SRCS		=	$(SRC_DIR)init/init_game.c \
+				$(SRC_DIR)init/init_img.c \
+				$(SRC_DIR)init/init_keys.c \
+				$(SRC_DIR)init/init_mlx.c \
+				$(SRC_DIR)init/init_ray.c \
+				$(SRC_DIR)init/init_texture.c \
+				$(SRC_DIR)main/cub3d.c \
+				$(SRC_DIR)parser/check_init_map.c \
+				$(SRC_DIR)parser/check_init_player.c \
+				$(SRC_DIR)parser/handle_line1.c \
+				$(SRC_DIR)parser/check_map.c \
+				$(SRC_DIR)parser/parser_color.c \
+				$(SRC_DIR)parser/parser_tex.c \
+				$(SRC_DIR)parser/parser_split.c \
+				$(SRC_DIR)parser/parser_utils.c \
+				$(SRC_DIR)parser/parser.c \
+				$(SRC_DIR)raycasting/raycasting.c \
+				$(SRC_DIR)raycasting/utils.c \
+				$(SRC_DIR)setup/control.c \
+				$(SRC_DIR)setup/hook.c \
+				$(SRC_DIR)setup/key.c \
+				$(SRC_DIR)setup/minimap.c \
+				$(SRC_DIR)setup/mouse.c \
 			
 
 SRCS_B		=	$(SRC_DIR_B)cub3d_bonus.c \

@@ -62,6 +62,9 @@
 	((p)->got_no && (p)->got_so && (p)->got_we && \
 	 (p)->got_ea && (p)->got_f  && (p)->got_c)
 
+
+# define M_PI 3.14159265358979323846
+
 typedef struct s_img
 {
 	void		*img_ptr;
@@ -178,7 +181,7 @@ void	free_map(char **map);
 // int	init_player(t_player *player, char **map);
 int		check_and_init_player(t_game *game);
 int		handle_map_line(char *trim, char ***raw_lines, int *raw_count, int *map_started);
-int		finalize_map(t_game *game, char **raw_lines, int raw_count);
+int		finalize_map(t_game *game, char ***raw_lines, int raw_count);
 int		validate_map(t_game *game);
 void	init_parser(t_parse *p);
 int		handle_no_line(t_game *g, t_parse *p, const char *s);

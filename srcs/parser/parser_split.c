@@ -14,7 +14,7 @@ int	handle_map_line(char *trim, char ***raw_lines, int *raw_count, int *map_star
 }
 
 // 最终地图处理：标准化 + 玩家初始化
-int	finalize_map(t_game *game, char **raw_lines, int raw_count)
+int finalize_map(t_game *game, char **raw_lines, int raw_count)
 {
 	if (!normalize_map(game, raw_lines, raw_count))
 		return (ft_fprintf(2, "Error: Failed to normalize map\n"), 0);
