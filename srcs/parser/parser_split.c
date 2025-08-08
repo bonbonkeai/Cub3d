@@ -1,24 +1,5 @@
 #include "cub3d.h"
 
-// 处理纹理行
-int	handle_texture_line(t_game *game, const char *trim, int *got_flag, char **dst)
-{
-	if ((*got_flag)++)
-		return (ft_fprintf(2, "Error: Duplicate texture\n"), 0);
-	*dst = dup_path_strict(trim);
-	if (!*dst)
-		return (ft_fprintf(2, "Error: Invalid or missing texture\n"), 0);
-	return (1);
-}
-// 处理颜色行
-int	handle_color_line(const char *trim, int *got_flag, int *dst_color)
-{
-	if ((*got_flag)++)
-		return (ft_fprintf(2, "Error: Duplicate color\n"), 0);
-	if (!parse_color(trim, dst_color))
-		return (ft_fprintf(2, "Error: Invalid color\n"), 0);
-	return (1);
-}
 // 处理地图行
 int	handle_map_line(char *trim, char ***raw_lines, int *raw_count, int *map_started)
 {
@@ -48,4 +29,19 @@ int	validate_map(t_game *game)
 	if (!check_map_closed(game))
 		return (ft_fprintf(2, "Error: Map is not closed\n"), 0);
 	return (1);
+}
+
+int	handle_empty_or_gap(t_parse *p, char *trim)
+{
+	if (*trim == '\0')
+	{
+		free(trim);
+		if (p->map_started)
+		{
+			ft_fprintf(2, "Error: Map contains empty line in %s\n", p->filepath);
+			return (0);
+		}
+		return (1);
+	}
+	return (2);
 }

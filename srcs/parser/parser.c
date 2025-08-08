@@ -1,45 +1,53 @@
 #include "cub3d.h"
 
-static int	handle_empty_or_gap(t_parse *p, char *trim, const char *filepath)
+/* 颜色两个键 */
+static int	handle_floor_line(t_game *g, t_parse *p, const char *s)
 {
-	if (*trim == '\0')
-	{
-		free(trim);
-		if (p->map_started)
-		{
-			ft_fprintf(2, "Error: Map contains empty line in %s\n", filepath);
-			return (0);
-		}
-		return (1); // 空行但未开始地图，跳过
-	}
-	return (2); // 非空行
+	if (p->got_f++)
+		return (ft_fprintf(2, "Error: Duplicate floor color in %s\n",
+				p->filepath), 0);
+	if (!parse_color(s, &g->textures.floor_color))
+		return (ft_fprintf(2, "Error: Invalid floor color in %s\n",
+				p->filepath), 0);
+	return (1);
+}
+
+static int	handle_ceiling_line(t_game *g, t_parse *p, const char *s)
+{
+	if (p->got_c++)
+		return (ft_fprintf(2, "Error: Duplicate ceiling color in %s\n",
+				p->filepath), 0);
+	if (!parse_color(s, &g->textures.ceiling_color))
+		return (ft_fprintf(2, "Error: Invalid ceiling color in %s\n",
+				p->filepath), 0);
+	return (1);
 }
 
 static int	parse_header_line(t_game *game, t_parse *p, char *trim)
 {
 	if (!p->map_started && ft_strncmp(trim, "NO ", 3) == 0)
-		return (handle_texture_line(game, trim + 3, &p->got_no, &game->textures.no_path));
+		return (handle_no_line(game, p, trim + 3));
 	if (!p->map_started && ft_strncmp(trim, "SO ", 3) == 0)
-		return (handle_texture_line(game, trim + 3, &p->got_so, &game->textures.so_path));
+		return (handle_so_line(game, p, trim + 3));
 	if (!p->map_started && ft_strncmp(trim, "WE ", 3) == 0)
-		return (handle_texture_line(game, trim + 3, &p->got_we, &game->textures.we_path));
+		return (handle_we_line(game, p, trim + 3));
 	if (!p->map_started && ft_strncmp(trim, "EA ", 3) == 0)
-		return (handle_texture_line(game, trim + 3, &p->got_ea, &game->textures.ea_path));
+		return (handle_ea_line(game, p, trim + 3));
 	if (!p->map_started && ft_strncmp(trim, "F ", 2) == 0)
-		return (handle_color_line(trim + 2, &p->got_f, &game->textures.floor_color));
+		return (handle_floor_line(game, p, trim + 2));
 	if (!p->map_started && ft_strncmp(trim, "C ", 2) == 0)
-		return (handle_color_line(trim + 2, &p->got_c, &game->textures.ceiling_color));
-	return (-1); // 不是头部
+		return (handle_ceiling_line(game, p, trim + 2));
+	return (-1);
 }
 
-static int	process_line(t_game *game, t_parse *p, char *line, const char *filepath)
+static int	process_line(t_game *game, t_parse *p, char *line)
 {
 	char	*trim;
 	int		ret;
 
-	trim = ft_strtrim(line, " \n\t");
+	trim = ft_strtrim(line, " \n\t\r");
 	free(line);
-	ret = handle_empty_or_gap(p, trim, filepath);
+	ret = handle_empty_or_gap(p, trim);
 	if (ret != 2)
 		return (ret);
 	ret = parse_header_line(game, p, trim);
@@ -54,14 +62,14 @@ static int	process_line(t_game *game, t_parse *p, char *line, const char *filepa
 		return (1);
 	}
 	free(trim);
-	ft_fprintf(2, "Error: Invalid line in %s\n", filepath);
+	ft_fprintf(2, "Error: Invalid line in %s\n", p->filepath);
 	return (0);
 }
 
-static int	final_checks(t_game *game, t_parse *p, const char *filepath)
+static int	final_checks(t_game *game, t_parse *p)
 {
 	if (!PARSE_GOT_ALL(p))
-		return (ft_fprintf(2, "Error: Missing parameters in %s\n", filepath), 0);
+		return (ft_fprintf(2, "Error: Missing parameters in %s\n", p->filepath), 0);
 	if (!finalize_map(game, p->raw_lines, p->raw_count))
 		return (0);
 	if (!validate_map(game))
@@ -69,12 +77,14 @@ static int	final_checks(t_game *game, t_parse *p, const char *filepath)
 	return (1);
 }
 
+
 int	parse_cub_file(const char *filepath, t_game *game)
 {
 	t_parse	p;
 	char	*line;
 
 	init_parser(&p);
+    p.filepath = filepath;
 	p.fd = open(filepath, O_RDONLY);
 	if (p.fd < 0)
 		return (ft_fprintf(2, "Error: Cannot open %s\n", filepath), 0);

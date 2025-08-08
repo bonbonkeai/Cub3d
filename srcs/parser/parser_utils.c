@@ -54,4 +54,5 @@ void	init_parser(t_parse *p)
     p->got_ea = 0;
     p->got_f = 0;
     p->got_c = 0;
+    p->filepath = NULL;
 }

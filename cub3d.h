@@ -155,6 +155,7 @@ typedef struct s_parse
 	int			got_ea;
 	int			got_f;
 	int			got_c;
+	const char	*filepath;
 }	t_parse;
 
 
@@ -176,14 +177,15 @@ int		init_map(t_game *game, const char *filepath);
 void	free_map(char **map);
 // int	init_player(t_player *player, char **map);
 int		check_and_init_player(t_game *game);
-int		handle_texture_line(t_game *game, const char *trim, int *got_flag, char **dst);
-int		handle_color_line(const char *trim, int *got_flag, int *dst_color);
 int		handle_map_line(char *trim, char ***raw_lines, int *raw_count, int *map_started);
 int		finalize_map(t_game *game, char **raw_lines, int raw_count);
 int		validate_map(t_game *game);
 void	init_parser(t_parse *p);
-
-
+int		handle_no_line(t_game *g, t_parse *p, const char *s);
+int		handle_so_line(t_game *g, t_parse *p, const char *s);
+int		handle_we_line(t_game *g, t_parse *p, const char *s);
+int		handle_ea_line(t_game *g, t_parse *p, const char *s);
+int		handle_empty_or_gap(t_parse *p, char *trim);
 
 /*INIT && FREE*/
 // int	init_game(t_game *game, char **map, int width, int height);
