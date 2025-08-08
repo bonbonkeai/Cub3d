@@ -1,57 +1,79 @@
 #include "cub3d.h"
 
-// int	init_texture_img(void *mlx_ptr, t_img *img, char *path)
-// {
-// 	img->img_ptr = mlx_xpm_file_to_image(mlx_ptr, path, &img->width, &img->height);
-// 	if (!img->img_ptr)
-// 		return (0);
-// 	img->data = mlx_get_data_addr(img->img_ptr, &img->bpp, &img->size_line, &img->endian);
-// 	if (!img->data)
-// 		return (0);
-// 	return (1);
-// }
-
-// void	free_textures(t_texture *tex, void *mlx_ptr)
-// {
-// 	free_img(mlx_ptr, &tex->no);
-// 	free_img(mlx_ptr, &tex->so);
-// 	free_img(mlx_ptr, &tex->we);
-// 	free_img(mlx_ptr, &tex->ea);
-// }
-
-int	init_texture_img(void *mlx_ptr, t_img *img, char *path)
+void    init_texture_defaults(t_texture *tex)
 {
-	img->img_ptr = mlx_xpm_file_to_image(mlx_ptr, path, &img->width, &img->height);
-	if (!img->img_ptr)
-		return (0);
-	img->data = mlx_get_data_addr(img->img_ptr, &img->bpp, &img->size_line, &img->endian);
-	if (!img->data)
-	{
-		mlx_destroy_image(mlx_ptr, img->img_ptr);
-		img->img_ptr = NULL;
-		return (0);
-	}
-	return (1);
+    tex->no.img_ptr = NULL;
+    tex->so.img_ptr = NULL;
+    tex->we.img_ptr = NULL;
+    tex->ea.img_ptr = NULL;
+    tex->no.data = NULL;
+    tex->so.data = NULL;
+    tex->we.data = NULL;
+    tex->ea.data = NULL;
+    tex->no_path = NULL;
+    tex->so_path = NULL;
+    tex->we_path = NULL;
+    tex->ea_path = NULL;
+    tex->floor_color = 0;
+    tex->ceiling_color = 0;
+    tex->floor_r = 0;
+    tex->floor_g = 0;
+    tex->floor_b = 0;
+	tex->ceiling_r = 0;
+	tex->ceiling_g = 0;
+	tex->ceiling_b = 0;
+
 }
 
-void	free_textures(t_texture *tex, void *mlx_ptr)
+int init_texture_img(void *mlx_ptr, t_img *img, const char *path)
 {
-	free_img(mlx_ptr, &tex->no);
-	free_img(mlx_ptr, &tex->so);
-	free_img(mlx_ptr, &tex->we);
-	free_img(mlx_ptr, &tex->ea);
-	free(tex->no_path);
-	free(tex->so_path);
-	free(tex->we_path);
-	free(tex->ea_path);
-	tex->no_path = NULL;
-	tex->so_path = NULL;
-	tex->we_path = NULL;
-	tex->ea_path = NULL;
+    if (!mlx_ptr || !img || !path || *path == '\0')
+        return (0);
+    img->img_ptr = mlx_xpm_file_to_image(mlx_ptr, (char *)path,
+                    &img->width, &img->height);
+    if (!img->img_ptr)
+        return (0);
+    img->data = mlx_get_data_addr(img->img_ptr,
+                    &img->bpp, &img->size_line, &img->endian);
+    if (!img->data)
+    {
+        mlx_destroy_image(mlx_ptr, img->img_ptr);
+        img->img_ptr = NULL;
+        return (0);
+    }
+    return (1);
+}
+
+
+void    free_textures(t_texture *tex, void *mlx_ptr)
+{
+    free_img(mlx_ptr, &tex->no);
+    free_img(mlx_ptr, &tex->so);
+    free_img(mlx_ptr, &tex->we);
+    free_img(mlx_ptr, &tex->ea);
+    free(tex->no_path);
+    free(tex->so_path);
+    free(tex->we_path);
+    free(tex->ea_path);
+    tex->no_path = NULL;
+    tex->so_path = NULL;
+    tex->we_path = NULL;
+    tex->ea_path = NULL;
+}
+
+static int  check_all_paths_ready(t_texture *t)
+{
+    if (!t->no_path || !t->so_path)
+        return (0);
+    if (!t->we_path || !t->ea_path)
+        return (0);
+    return (1);
 }
 
 int	init_textures(t_texture *tex, void *mlx_ptr)
 {
+	if (!check_all_paths_ready(tex))
+        return (0);
     if (!init_texture_img(mlx_ptr, &tex->no, tex->no_path)
     || !init_texture_img(mlx_ptr, &tex->so, tex->so_path)
     || !init_texture_img(mlx_ptr, &tex->we, tex->we_path)

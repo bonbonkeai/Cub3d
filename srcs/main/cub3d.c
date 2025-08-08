@@ -3,30 +3,23 @@
 int	main(int argc, char **argv)
 {
 	t_game	game;
-	char	**map;
 
 	if (argc != 2)
 	{
 		ft_fprintf(2, "Usage: ./cub3D map.cub\n");
 		return (1);
 	}
-	// // 1. parser 独立，先检测地图语法
-	// map = parse_map(argv[1], &game);
-	// if (!map)
-	// {
-	// 	ft_fprintf(2, "Error: map parsing failed\n");
-	// 	return (1);
-	// }
-	// // 2. 初始化游戏（直接用 parser 的 map）
-	// init_game(&game, map, get_map_width(map), get_map_height(map));
     if (!parse_cub_file(argv[1], &game))
-        return (1);
-    // 2️⃣ init_game 阶段：初始化其他渲染资源（player 已经就绪）
+    {    
+		free_game(&game);
+		return (1);
+	}
     if (!init_game(&game))
-        return (1);
-	// 3. 绑定事件循环
+    {
+		free_game(&game);
+		return (1);
+	}
 	set_up_game(&game);
-	// 4. 开始事件循环
 	mlx_loop(game.mlx.mlx_ptr);
 	return (0);
 }

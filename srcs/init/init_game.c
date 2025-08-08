@@ -66,6 +66,7 @@ int	init_game(t_game *game)
 		ft_fprintf(2, "Error: Failed to initialize mlx\n");
 		exit_game(game, 1);
 	}
+	init_texture_defaults(&game->textures);
 	if (!init_textures(&game->textures, game->mlx.mlx_ptr))
 	{
 		ft_fprintf(2, "Error: Failed to load textures\n");

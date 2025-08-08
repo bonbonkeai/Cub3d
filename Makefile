@@ -1,91 +1,62 @@
-NAME		=	cub3D
-BONUS		=	cub3D_bonus
-LIBFT		=	libft/libft.a
-SRC_DIR		=	srcs/
-SRC_DIR_B	=	bonus/srcs/
-OBJ_DIR		=	obj/
-OBJ_DIR_B	=	bonus/obj/
-MLX_DIR		=	mlx_linux/
-MLX_LIB		=	$(MLX_DIR)libmlx.a
+CC      = cc
+CFLAGS  = -Wall -Wextra -Werror
+INCS    = -I. -I./Libft -I./minilibx-linux
+NAME    = cub3D
+LIBFT   = ./Libft/libft.a
+MLX_DIR = ./minilibx-linux
+MLX_LIB = $(MLX_DIR)/libmlx.a
+LDLIBS  = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 
-CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
-INCLUDES	=	-Iincludes -I/usr/include -Imlx -I./libft
-INCLUDES_B	=	-Ibonus/includes -I/usr/include -Imlx -I./libft
-FLAGS		=	-Lmlx_linux -lmlx -L/usr/lib/X11 -lXext -lX11 -lm
-RM			=	rm -f
+SRCS = \
+	srcs/init/init_game.c \
+	srcs/init/init_img.c \
+	srcs/init/init_keys.c \
+	srcs/init/init_mlx.c \
+	srcs/init/init_ray.c \
+	srcs/init/init_texture.c \
+	srcs/main/cub3d.c \
+	srcs/parser/check_init_map.c \
+	srcs/parser/check_init_player.c \
+	srcs/parser/handle_line1.c \
+	srcs/parser/check_map.c \
+	srcs/parser/parser_color.c \
+	srcs/parser/parser_tex.c \
+	srcs/parser/parser_split.c \
+	srcs/parser/parser_utils.c \
+	srcs/parser/parser.c \
+	srcs/raycasting/raycasting.c \
+	srcs/raycasting/utils.c \
+	srcs/setup/control.c \
+	srcs/setup/hook.c \
+	srcs/setup/key.c \
+	srcs/setup/minimap.c \
+	srcs/setup/mouse.c
 
-# source files
-SRCS		=	$(SRC_DIR)init/init_game.c \
-				$(SRC_DIR)init/init_img.c \
-				$(SRC_DIR)init/init_keys.c \
-				$(SRC_DIR)init/init_mlx.c \
-				$(SRC_DIR)init/init_ray.c \
-				$(SRC_DIR)init/init_texture.c \
-				$(SRC_DIR)main/cub3d.c \
-				$(SRC_DIR)parser/check_init_map.c \
-				$(SRC_DIR)parser/check_init_player.c \
-				$(SRC_DIR)parser/handle_line1.c \
-				$(SRC_DIR)parser/check_map.c \
-				$(SRC_DIR)parser/parser_color.c \
-				$(SRC_DIR)parser/parser_tex.c \
-				$(SRC_DIR)parser/parser_split.c \
-				$(SRC_DIR)parser/parser_utils.c \
-				$(SRC_DIR)parser/parser.c \
-				$(SRC_DIR)raycasting/raycasting.c \
-				$(SRC_DIR)raycasting/utils.c \
-				$(SRC_DIR)setup/control.c \
-				$(SRC_DIR)setup/hook.c \
-				$(SRC_DIR)setup/key.c \
-				$(SRC_DIR)setup/minimap.c \
-				$(SRC_DIR)setup/mouse.c \
-			
+OBJS = $(SRCS:.c=.o)
 
-SRCS_B		=	$(SRC_DIR_B)cub3d_bonus.c \
-				
+all: $(NAME)
 
-OBJS		=	$(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRCS))
-OBJS_B		=	$(patsubst $(SRC_DIR_B)%.c,$(OBJ_DIR_B)%.o,$(SRCS_B))
+$(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX_LIB) $(LDLIBS)
 
-all:		$(NAME)
-bonus:		$(BONUS)
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
 $(LIBFT):
-		@make -sC ./libft
-		@echo "Libft compilation success!"
+	make -C ./Libft
 
 $(MLX_LIB):
-		@make -sC $(MLX_DIR)
-
-$(NAME):	$(OBJS) $(LIBFT) $(MLX_LIB)
-		@$(CC) $(CFLAGS) $(OBJS) $(FLAGS) $(INCLUDES) \
-		$(LIBFT) $(MLX_LIB) -o $(NAME)
-		@echo "Compilation success!"
-
-$(OBJ_DIR)%.o:	$(SRC_DIR)%.c
-		@mkdir -p $(@D)
-		@$(CC) $(CFLAGS) -Iinclude -Imlx -c $< -o $@
-
-$(BONUS):	$(OBJS_B) $(LIBFT) $(MLX_LIB)
-		@$(CC) $(CFLAGS) $(OBJS_B) $(FLAGS) $(INCLUDES_B) \
-		$(LIBFT) $(MLX_LIB) -o $(BONUS)
-		@echo "Bonus Compilation success!"
-
-$(OBJ_DIR_B)%.o:	$(SRC_DIR_B)%.c
-		@mkdir -p $(@D)
-		@$(CC) $(CFLAGS) $(INCLUDES_B) -c $< -o $@
+	make -C $(MLX_DIR)
 
 clean:
-		@$(RM) -r $(OBJ_DIR) $(OBJ_DIR_B)
-		@make clean -C ./libft
-		@make clean -C $(MLX_DIR)
+	rm -f $(OBJS)
+	make -C ./Libft
+	make -C $(MLX_DIR)
 
-fclean:		clean
-		@$(RM) $(NAME)
-		@$(RM) $(BONUS)
-		@$(RM) $(LIBFT)
-		@make clean -C $(MLX_DIR)
+fclean: clean
+	rm -f $(NAME)
+	rm -f $(LIBFT)
 
-re:		fclean all
+re: fclean all
 
-.PHONY:		all clean fclean re bonus
+.PHONY: all clean fclean re

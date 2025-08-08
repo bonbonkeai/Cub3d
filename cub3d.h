@@ -8,6 +8,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "../minilibx-linux/mlx.h"
+# include <stdio.h>
 
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
@@ -76,7 +77,6 @@ typedef struct s_img
 	int			height;
 }	t_img;
 
-
 typedef struct s_player
 {
 	double 		x;
@@ -110,6 +110,12 @@ typedef struct s_texture
 	char 		*ea_path;
 	int			floor_color;
 	int			ceiling_color;
+	int 		floor_r;
+	int 		floor_g;
+	int 		floor_b;
+	int     	ceiling_r;
+    int     	ceiling_g;
+    int     	ceiling_b; 
 }	t_texture;
 
 typedef struct s_keys
@@ -122,7 +128,6 @@ typedef struct s_keys
 	int			right;
 	int			esc;
 }	t_keys;
-
 
 typedef struct s_mlx
 {
@@ -161,11 +166,10 @@ typedef struct s_parse
 	const char	*filepath;
 }	t_parse;
 
-
-
 /*PARSER*/
 int		parse_cub_file(const char *filepath, t_game *game);
-int 	parse_color(const char *str, int *out_color);
+// int 	parse_color(const char *str, int *out_color);
+int		parse_color(char *trim, int *r, int *g, int *b);
 int		check_texture_file(const char *path);
 char	*dup_path_strict(const char *str);
 void	free_raw_lines(char **lines, int count);
@@ -181,7 +185,7 @@ void	free_map(char **map);
 // int	init_player(t_player *player, char **map);
 int		check_and_init_player(t_game *game);
 int		handle_map_line(char *trim, char ***raw_lines, int *raw_count, int *map_started);
-int		finalize_map(t_game *game, char ***raw_lines, int raw_count);
+int		finalize_map(t_game *game, char **raw_lines, int raw_count);
 int		validate_map(t_game *game);
 void	init_parser(t_parse *p);
 int		handle_no_line(t_game *g, t_parse *p, const char *s);
@@ -204,7 +208,8 @@ int		init_mlx(t_mlx *mlx, int width, int height);
 void	free_mlx(t_mlx *mlx);
 int		init_rays(t_ray **rays, int screen_width);
 void	free_rays(t_ray **rays);
-int		init_texture_img(void *mlx_ptr, t_img *img, char *path);
+int		init_texture_img(void *mlx_ptr, t_img *img, const char *path);
+void    init_texture_defaults(t_texture *tex);
 int		init_textures(t_texture *tex, void *mlx_ptr);
 void	free_textures(t_texture *tex, void *mlx_ptr);
 
@@ -220,6 +225,10 @@ int		key_press(int keycode, t_game *game);
 int		key_release(int keycode, t_game *game);
 int		exit_button(t_game *game);
 
+/*MOUSE*/
+int		mouse_move(int x, int y, t_game *game);
+
+
 /*MINIMAP*/
 void	put_px(t_img *img, int x, int y, int color);
 void	draw_rect(t_img *img, int x, int y, int w, int h, int color);
@@ -230,6 +239,7 @@ void	draw_minimap(t_game *game);
 
 /*RAYCASTING*/
 void	cast_rays(t_game *game);
+void	draw_crosshair(t_game *game);
 
 /*MAIN*/
 int		main(int argc, char **argv);

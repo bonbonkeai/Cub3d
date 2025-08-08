@@ -107,35 +107,55 @@ int	init_map(t_game *game, const char *filepath)
 		return (0);
 	map_start = 0;
 	line_count = 0;
+	// while ((line = get_next_line(fd)))
+	// {
+	// 	if (!map_start && is_map_line(line))
+	// 		map_start = 1;
+	// 	if (map_start)
+	// 	{
+	// 		// 动态扩容
+	// 		if (line_count >= capacity - 1)
+	// 		{
+	// 			capacity *= 2;
+	// 			char **tmp = malloc(sizeof(char *) * capacity);
+	// 			if (!tmp)
+	// 			{
+	// 				free(line);
+	// 				close(fd);
+	// 				return (NULL);
+	// 			}
+	// 			ft_memcpy(tmp, raw_lines, sizeof(char *) * old_capacity);
+	// 			free(raw_lines);
+	// 			raw_lines = tmp;
+	// 		}
+	// 		raw_lines[line_count] = ft_strtrim(line, "\n");
+	// 		if (!raw_lines[line_count])
+	// 		{
+	// 			free(line);
+	// 			close(fd);
+	// 			return (0);
+	// 		}
+	// 		line_count++;
+	// 	}
+	// 	free(line);
+	// }
 	while ((line = get_next_line(fd)))
 	{
 		if (!map_start && is_map_line(line))
 			map_start = 1;
 		if (map_start)
 		{
-			// 动态扩容
-			if (line_count >= capacity - 1)
-			{
-				capacity *= 2;
-				char **tmp = ft_realloc(raw_lines, sizeof(char *) * capacity);
-				if (!tmp)
-				{
-					free(line);
-					close(fd);
-					return (0);
-				}
-				raw_lines = tmp;
-			}
-			raw_lines[line_count] = ft_strtrim(line, "\n");
-			if (!raw_lines[line_count])
+			char *trimmed = ft_strtrim(line, "\n");
+			free(line);
+			if (!trimmed || !append_line(&raw_lines, &line_count, trimmed))
 			{
 				free(line);
 				close(fd);
 				return (0);
 			}
-			line_count++;
 		}
-		free(line);
+		else
+			free(line);
 	}
 	close(fd);
 	raw_lines[line_count] = NULL;
