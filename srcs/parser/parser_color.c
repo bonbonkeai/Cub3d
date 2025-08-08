@@ -26,3 +26,26 @@ int parse_color(const char *str, int *out_color)
     }
     return (1);
 }
+
+/* 颜色两个键 */
+int	handle_floor_line(t_game *g, t_parse *p, const char *s)
+{
+	if (p->got_f++)
+		return (ft_fprintf(2, "Error: Duplicate floor color in %s\n",
+				p->filepath), 0);
+	if (!parse_color(s, &g->textures.floor_color))
+		return (ft_fprintf(2, "Error: Invalid floor color in %s\n",
+				p->filepath), 0);
+	return (1);
+}
+
+int	handle_ceiling_line(t_game *g, t_parse *p, const char *s)
+{
+	if (p->got_c++)
+		return (ft_fprintf(2, "Error: Duplicate ceiling color in %s\n",
+				p->filepath), 0);
+	if (!parse_color(s, &g->textures.ceiling_color))
+		return (ft_fprintf(2, "Error: Invalid ceiling color in %s\n",
+				p->filepath), 0);
+	return (1);
+}

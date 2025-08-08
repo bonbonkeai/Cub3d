@@ -1,28 +1,5 @@
 #include "cub3d.h"
 
-/* 颜色两个键 */
-static int	handle_floor_line(t_game *g, t_parse *p, const char *s)
-{
-	if (p->got_f++)
-		return (ft_fprintf(2, "Error: Duplicate floor color in %s\n",
-				p->filepath), 0);
-	if (!parse_color(s, &g->textures.floor_color))
-		return (ft_fprintf(2, "Error: Invalid floor color in %s\n",
-				p->filepath), 0);
-	return (1);
-}
-
-static int	handle_ceiling_line(t_game *g, t_parse *p, const char *s)
-{
-	if (p->got_c++)
-		return (ft_fprintf(2, "Error: Duplicate ceiling color in %s\n",
-				p->filepath), 0);
-	if (!parse_color(s, &g->textures.ceiling_color))
-		return (ft_fprintf(2, "Error: Invalid ceiling color in %s\n",
-				p->filepath), 0);
-	return (1);
-}
-
 static int	parse_header_line(t_game *game, t_parse *p, char *trim)
 {
 	if (!p->map_started && ft_strncmp(trim, "NO ", 3) == 0)
@@ -90,11 +67,11 @@ int	parse_cub_file(const char *filepath, t_game *game)
 		return (ft_fprintf(2, "Error: Cannot open %s\n", filepath), 0);
 	while ((line = get_next_line(p.fd)))
 	{
-		if (!process_line(game, &p, line, filepath))
+		if (!process_line(game, &p, line))
 			return (close(p.fd), free_raw_lines(p.raw_lines, p.raw_count), 0);
 	}
 	close(p.fd);
-	if (!final_checks(game, &p, filepath))
+	if (!final_checks(game, &p))
 		return (free_raw_lines(p.raw_lines, p.raw_count), 0);
 	free_raw_lines(p.raw_lines, p.raw_count);
 	return (1);

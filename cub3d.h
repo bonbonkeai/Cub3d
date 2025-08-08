@@ -186,6 +186,8 @@ int		handle_so_line(t_game *g, t_parse *p, const char *s);
 int		handle_we_line(t_game *g, t_parse *p, const char *s);
 int		handle_ea_line(t_game *g, t_parse *p, const char *s);
 int		handle_empty_or_gap(t_parse *p, char *trim);
+int		handle_floor_line(t_game *g, t_parse *p, const char *s);
+int		handle_ceiling_line(t_game *g, t_parse *p, const char *s);
 
 /*INIT && FREE*/
 // int	init_game(t_game *game, char **map, int width, int height);
