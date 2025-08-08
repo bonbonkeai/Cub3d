@@ -1,14 +1,29 @@
 #include "cub3d.h"
 
-int	is_map_line(char *line)
+// int	is_map_line(char *line)
+// {
+// 	while (*line)
+// 	{
+// 		if (ft_strchr("10 NSEW", *line))
+// 			return (1);
+// 		line++;
+// 	}
+// 	return (0);
+// }
+
+int	is_map_line(const char *line)
 {
+	if (!line)
+		return (0);
 	while (*line)
 	{
-		if (ft_strchr("10 NSEW", *line))
-			return (1);
+		if (*line != '1' && *line != '0' && *line != 'N' &&
+			*line != 'S' && *line != 'E' && *line != 'W' &&
+			*line != ' ')
+			return (0);
 		line++;
 	}
-	return (0);
+	return (1);
 }
 
 int	get_map_width(char **map)
@@ -74,46 +89,6 @@ int	normalize_map(t_game *game, char **raw_lines, int line_count)
 	return (1);
 }
 
-
-// int	init_map(t_game *game, const char *filepath)
-// {
-// 	int		fd;
-// 	char	*line;
-// 	char	**raw_lines;
-// 	int		map_start;
-// 	int		line_count;
-
-// 	fd = open(filepath, O_RDONLY);
-// 	if (fd < 0)
-// 		return (0);
-// 	raw_lines = malloc(sizeof(char *) * 1024);
-// 	if (!raw_lines)
-// 		return (0);
-// 	map_start = 0;
-// 	line_count = 0;
-// 	while ((line = get_next_line(fd)))
-// 	{
-// 		if (!map_start && is_map_line(line))
-// 			map_start = 1;
-// 		if (map_start)
-// 		{
-// 			raw_lines[line_count] = ft_strtrim(line, "\n");
-// 			if (!raw_lines[line_count++])
-// 			{
-// 				free(line);
-// 				close(fd);
-// 				return (0);
-// 			}
-// 		}
-// 		free(line);
-// 	}
-// 	close(fd);
-// 	raw_lines[line_count] = NULL;
-// 	if (line_count == 0)
-// 		return (0);
-// 	return (normalize_map(game, raw_lines, line_count));
-// }
-
 int	init_map(t_game *game, const char *filepath)
 {
 	int		fd;
@@ -142,7 +117,7 @@ int	init_map(t_game *game, const char *filepath)
 			if (line_count >= capacity - 1)
 			{
 				capacity *= 2;
-				char **tmp = realloc(raw_lines, sizeof(char *) * capacity);
+				char **tmp = ft_realloc(raw_lines, sizeof(char *) * capacity);
 				if (!tmp)
 				{
 					free(line);
@@ -167,20 +142,4 @@ int	init_map(t_game *game, const char *filepath)
 	if (line_count == 0)
 		return (0);
 	return (normalize_map(game, raw_lines, line_count));
-}
-
-
-void	free_map(char **map)
-{
-	int	i;
-
-	if (!map)
-		return;
-	i = 0;
-	while (map[i])
-	{
-		free(map[i]);
-		i++;
-	}
-	free(map);
 }

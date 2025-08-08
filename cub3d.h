@@ -6,6 +6,7 @@
 # include <math.h>
 # include <sys/time.h>
 # include <stdlib.h>
+# include <unistd.h>
 # include "../minilibx-linux/mlx.h"
 
 # define WIN_WIDTH 800
@@ -34,10 +35,6 @@
 
 /*TEXTURE*/
 # define TEXTURE_SIZE 256
-# define TEX_NORTH "textures/north.xpm"
-# define TEX_SOUTH "textures/south.xpm"
-# define TEX_EAST  "textures/east.xpm"
-# define TEX_WEST  "textures/west.xpm"
 
 /*EVEN*/
 # define X_EVENT_KEY_PRESS    2
@@ -61,27 +58,31 @@
 # define LINE_LEN    8        // 短线长度
 # define DOT_RADIUS  2        // 中心圆点半径 
 
+# define PARSE_GOT_ALL(p) \
+	((p)->got_no && (p)->got_so && (p)->got_we && \
+	 (p)->got_ea && (p)->got_f  && (p)->got_c)
+
 typedef struct s_img
 {
-	void	*img_ptr;
-	char	*data;
-	int		bpp;
-	int		size_line;
-	int		endian;
-	int		width;
-	int		height;
+	void		*img_ptr;
+	char		*data;
+	int			bpp;
+	int			size_line;
+	int			endian;
+	int			width;
+	int			height;
 }	t_img;
 
 
 typedef struct s_player
 {
-	double x;
-	double y;
-	double dir_x;
-	double dir_y;
-	double plane_x;
-    double plane_y;
-    double plane_len;
+	double 		x;
+	double 		y;
+	double 		dir_x;
+	double 		dir_y;
+	double 		plane_x;
+    double 		plane_y;
+    double 		plane_len;
 }              t_player;
 
 typedef struct s_ray
@@ -96,31 +97,35 @@ typedef struct s_ray
 
 typedef struct s_texture
 {
-	t_img	no;
-	t_img	so;
-	t_img	we;
-	t_img	ea;
-	int		floor_color;
-	int		ceiling_color;
+	t_img		no;
+	t_img		so;
+	t_img		we;
+	t_img		ea;
+	char 		*no_path;
+	char 		*so_path;
+	char 		*we_path;
+	char 		*ea_path;
+	int			floor_color;
+	int			ceiling_color;
 }	t_texture;
 
 typedef struct s_keys
 {
-	int	w;
-	int	a;
-	int	s;
-	int	d;
-	int	left;
-	int	right;
-	int	esc;
+	int			w;
+	int			a;
+	int			s;
+	int			d;
+	int			left;
+	int			right;
+	int			esc;
 }	t_keys;
 
 
 typedef struct s_mlx
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	t_img   img;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	t_img   	img;
 }	t_mlx;
 
 typedef struct s_game 
@@ -128,58 +133,91 @@ typedef struct s_game
 	t_mlx		mlx;
 	t_player	player;
 	t_keys		keys;
-	t_texture		textures;
+	t_texture	textures;
 	char		**map;
 	int			map_width;
 	int			map_height;
 	int			win_width;
 	int			win_height;
 	t_ray		*rays;
-	double  shadow_factor; // 阴影亮度系数，范围 0.0 ~ 1.0
+	double  	shadow_factor; // 阴影亮度系数，范围 0.0 ~ 1.0
 }	t_game;
 
-/*INIT && FREE*/
-int	init_game(t_game *game, char **map, int width, int height);
-// int	init_game(t_game *game, const char *map_path);
-void	free_game(t_game *game);
-int	exit_game(t_game *game, int exit_code);
-int	init_img(void *mlx, t_img *img, int width, int height);
-void	free_img(void *mlx_ptr, t_img *img);
-int	init_keys(t_keys *keys);
-int	init_mlx(t_mlx *mlx, int width, int height);
-void	free_mlx(t_mlx *mlx);
-int	init_rays(t_ray **rays, int screen_width);
-void	free_rays(t_ray **rays);
-int	init_texture_img(void *mlx_ptr, t_img *img, char *path);
-int	init_textures(t_texture *tex, void *mlx_ptr);
-void	free_textures(t_texture *tex, void *mlx_ptr);
-int	init_player(t_player *player, char **map);
+typedef struct s_parse
+{
+	char		**raw_lines;
+	int			raw_count;
+	int			map_started;
+	int			fd;
+	int			got_no;
+	int			got_so;
+	int			got_we;
+	int			got_ea;
+	int			got_f;
+	int			got_c;
+}	t_parse;
 
-/*PASER&MAP*/
-int	is_map_line(char *line);
-int	get_map_width(char **map);
-int	get_map_height(char **map);
-int	normalize_map(t_game *game, char **raw_lines, int line_count);
-int	init_map(t_game *game, const char *filepath);
+
+
+/*PARSER*/
+int		parse_cub_file(const char *filepath, t_game *game);
+int 	parse_color(const char *str, int *out_color);
+int		check_texture_file(const char *path);
+char	*dup_path_strict(const char *str);
+void	free_raw_lines(char **lines, int count);
+int 	check_map_closed(t_game *game);
+int 	check_single_player_start(t_game *game);
+int		append_line(char ***arr, int *count, char *line);
+int		is_map_line(const char *line);
+int		get_map_width(char **map);
+int		get_map_height(char **map);
+int		normalize_map(t_game *game, char **raw_lines, int line_count);
+int		init_map(t_game *game, const char *filepath);
 void	free_map(char **map);
+// int	init_player(t_player *player, char **map);
+int		check_and_init_player(t_game *game);
+int		handle_texture_line(t_game *game, const char *trim, int *got_flag, char **dst);
+int		handle_color_line(const char *trim, int *got_flag, int *dst_color);
+int		handle_map_line(char *trim, char ***raw_lines, int *raw_count, int *map_started);
+int		finalize_map(t_game *game, char **raw_lines, int raw_count);
+int		validate_map(t_game *game);
+void	init_parser(t_parse *p);
+
+
+
+/*INIT && FREE*/
+// int	init_game(t_game *game, char **map, int width, int height);
+int		init_game(t_game *game);
+void	free_game(t_game *game);
+int		exit_game(t_game *game, int exit_code);
+int		init_img(void *mlx, t_img *img, int width, int height);
+void	free_img(void *mlx_ptr, t_img *img);
+int		init_keys(t_keys *keys);
+int		init_mlx(t_mlx *mlx, int width, int height);
+void	free_mlx(t_mlx *mlx);
+int		init_rays(t_ray **rays, int screen_width);
+void	free_rays(t_ray **rays);
+int		init_texture_img(void *mlx_ptr, t_img *img, char *path);
+int		init_textures(t_texture *tex, void *mlx_ptr);
+void	free_textures(t_texture *tex, void *mlx_ptr);
 
 /*SETUP*/
 void	rotate_player(t_player *p, double angle);
 void	update_player(t_game *game);
 void	clear_image(t_img *img, int color);
-int	set_up_game(t_game *game);
-int	render_game(t_game *game);
+int		set_up_game(t_game *game);
+int		render_game(t_game *game);
 
 /*KEY*/
-int	key_press(int keycode, t_game *game);
-int	key_release(int keycode, t_game *game);
-int	exit_button(t_game *game);
+int		key_press(int keycode, t_game *game);
+int		key_release(int keycode, t_game *game);
+int		exit_button(t_game *game);
 
 /*MINIMAP*/
 void	put_px(t_img *img, int x, int y, int color);
 void	draw_rect(t_img *img, int x, int y, int w, int h, int color);
 void	draw_line(t_img *img, int x0, int y0, int x1, int y1, int color);
-int	minimap_tile_size(t_game *g);
+int		minimap_tile_size(t_game *g);
 void	draw_border(t_img *img, int x, int y, int w, int h, int color);
 void	draw_minimap(t_game *game);
 
@@ -187,6 +225,6 @@ void	draw_minimap(t_game *game);
 void	cast_rays(t_game *game);
 
 /*MAIN*/
-int	main(int argc, char **argv);
+int		main(int argc, char **argv);
 
 #endif
