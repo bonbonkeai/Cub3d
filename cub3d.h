@@ -7,7 +7,9 @@
 # include <sys/time.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "../minilibx-linux/mlx.h"
+# include "../mlx_mac/mlx.h"
+# include "../mlx_mac2/mlx.h"
+// # include "../mlx_linux/mlx.h"
 # include <stdio.h>
 
 # define WIN_WIDTH 800
@@ -54,7 +56,7 @@
 
 /*CROSS*/
 # define CROSS_COLOR 0x00FF00 // 绿色
-# define CROSS_ALPHA 0.6      // 半透明 60%
+# define CROSS_ALPHA ((int)0.6 * 255)      // 半透明 60%
 # define GAP         6        // 中心到短线起点的距离
 # define LINE_LEN    8        // 短线长度
 # define DOT_RADIUS  2        // 中心圆点半径 
@@ -62,9 +64,6 @@
 # define PARSE_GOT_ALL(p) \
 	((p)->got_no && (p)->got_so && (p)->got_we && \
 	 (p)->got_ea && (p)->got_f  && (p)->got_c)
-
-
-# define M_PI 3.14159265358979323846
 
 typedef struct s_img
 {

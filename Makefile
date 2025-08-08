@@ -1,11 +1,16 @@
-CC      = cc
-CFLAGS  = -Wall -Wextra -Werror
-INCS    = -I. -I./Libft -I./minilibx-linux
-NAME    = cub3D
-LIBFT   = ./Libft/libft.a
-MLX_DIR = ./minilibx-linux
-MLX_LIB = $(MLX_DIR)/libmlx.a
-LDLIBS  = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
+NAME        = cub3D
+
+LIBFT_DIR   = Libft
+LIBFT       = $(LIBFT_DIR)/libft.a
+
+MLX_DIR     = mlx_mac
+MLX_DIR2 	= mlx_mac2
+MLX_LIB     = $(MLX_DIR)/libmlx.a
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror
+INCLUDES    = -I. -Iincludes -I$(MLX_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR2)
+FRAMEWORKS  = -framework OpenGL -framework AppKit
+RM          = rm -f
 
 SRCS = \
 	srcs/init/init_game.c \
@@ -32,31 +37,40 @@ SRCS = \
 	srcs/setup/minimap.c \
 	srcs/setup/mouse.c
 
-OBJS = $(SRCS:.c=.o)
+SRCS_BONUS = \
+	# srcs_bonus/xxx_bonus.c
+
+OBJS        = $(SRCS:.c=.o)
+OBJS_BONUS  = $(SRCS_BONUS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX_LIB) $(LDLIBS)
+$(NAME): $(OBJS)
+	@$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -C $(MLX_DIR)
+	@$(MAKE) -C $(MLX_DIR2)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_LIB) $(FRAMEWORKS) -o $(NAME)
+
+bonus: CFLAGS += -DBONUS
+bonus: $(OBJS) $(OBJS_BONUS)
+	@$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -C $(MLX_DIR)
+	@$(MAKE) -C $(MLX_DIR2)
+	$(CC) $(CFLAGS) $(OBJS) $(OBJS_BONUS) $(LIBFT) $(MLX_LIB) $(FRAMEWORKS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
-
-$(LIBFT):
-	make -C ./Libft
-
-$(MLX_LIB):
-	make -C $(MLX_DIR)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
-	make -C ./Libft
-	make -C $(MLX_DIR)
+	@$(MAKE) -C $(LIBFT_DIR) clean
+	@$(MAKE) -C $(MLX_DIR) clean
+	@$(MAKE) -C $(MLX_DIR2) clean
+	$(RM) $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
-	rm -f $(NAME)
-	rm -f $(LIBFT)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
+	$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

@@ -22,14 +22,18 @@
 // 	}
 // }
 
-#include "cub3d.h"
-
 static void	put_px_alpha(t_img *img, int x, int y, int color, int alpha)
 {
 	char	*dst;
-	int		r, g, b;
-	int		bg_r, bg_g, bg_b;
-	int		final_r, final_g, final_b;
+	int		r;
+    int     g;
+    int     b;
+	int		bg_r;
+    int     bg_g;
+    int     bg_b;
+	int		final_r;
+    int     final_g;
+    int     final_b;
 	unsigned int	bg_color;
 
 	if (x < 0 || y < 0 || x >= img->width || y >= img->height)
