@@ -36,7 +36,9 @@ int	init_player(t_player *player, char **map)
 					player->dir_x = -1;
 					player->dir_y = 0;
 				}
-				player->view = 0.66;
+				player->plane_len = tan(60.0  * M_PI / 180.0 / 2);
+                player->plane_x = -player->dir_y * player->plane_len;
+                player->plane_y = player->dir_x * player->plane_len;
 				map[i][j] = '0';
 				return (1);
 			}
@@ -48,3 +50,10 @@ int	init_player(t_player *player, char **map)
 }
 
 
+for (int x = 0; x < screenWidth; x++)
+{
+    double cameraX = 2.0 * x / (double)screenWidth - 1.0;
+    rayDirX = dirX + planeX * cameraX;
+    rayDirY = dirY + planeY * cameraX;
+    ...
+}

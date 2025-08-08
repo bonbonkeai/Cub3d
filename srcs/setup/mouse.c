@@ -1,47 +1,20 @@
 #include "cub3d.h"
 
-int	key_press(int keycode, t_game *game)
+int	mouse_move(int x, int y, t_game *game)
 {
-	if (keycode == W)
-		game->keys.w = 1;
-	else if (keycode == A)
-		game->keys.a = 1;
-	else if (keycode == S)
-		game->keys.s = 1;
-	else if (keycode == D)
-		game->keys.d = 1;
-	else if (keycode == LEFT)
-		game->keys.left = 1;
-	else if (keycode == RIGHT)
-		game->keys.right = 1;
-	else if (keycode == LEFT_INT)
-		game->keys.left = 1;
-	else if (keycode == RIGHT_INT)
-		game->keys.right = 1;
-	else if (keycode == ESC)
-		game->keys.esc = 1;
-	return (0);
-}
+	int	center_x;
+	int	center_y;
+	int	delta_x;
 
-int	key_release(int keycode, t_game *game)
-{
-	if (keycode == W)
-		game->keys.w = 0;
-	else if (keycode == A)
-		game->keys.a = 0;
-	else if (keycode == S)
-		game->keys.s = 0;
-	else if (keycode == D)
-		game->keys.d = 0;
-	else if (keycode == LEFT)
-		game->keys.left = 0;
-	else if (keycode == RIGHT)
-		game->keys.right = 0;
-	else if (keycode == LEFT_INT)
-		game->keys.left = 0;
-	else if (keycode == RIGHT_INT)
-		game->keys.right = 0;
-	else if (keycode == ESC)
-		game->keys.esc = 0;
+	(void)y;
+	center_x = game->win_width / 2;
+	center_y = game->win_height / 2;
+	delta_x = x - center_x;
+	if (delta_x != 0)
+	{
+		double rot_speed = delta_x * 0.002;
+		rotate_player(&game->player, rot_speed);
+		mlx_mouse_move(game->mlx.mlx_ptr, game->mlx.win_ptr, center_x, center_y);
+	}
 	return (0);
 }

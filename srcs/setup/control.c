@@ -1,5 +1,19 @@
 #include "cub3d.h"
 
+void	rotate_player(t_player *p, double angle)
+{
+	double	old_dir_x;
+	double	old_plane_x;
+
+	old_dir_x = p->dir_x;
+	p->dir_x = p->dir_x * cos(angle) - p->dir_y * sin(angle);
+	p->dir_y = old_dir_x * sin(angle) + p->dir_y * cos(angle);
+	old_plane_x = p->plane_x;
+	p->plane_x = p->plane_x * cos(angle) - p->plane_y * sin(angle);
+	p->plane_y = old_plane_x * sin(angle) + p->plane_y * cos(angle);
+}
+
+
 void	update_player(t_game *game)
 {
 	t_player *p;
@@ -37,41 +51,47 @@ void	update_player(t_game *game)
 		if (game->map[(int)(p->y + p->plane_y * MOVE_SPEED)][(int)(p->x)] != '1')
 			p->y += p->plane_y * MOVE_SPEED;
 	}
-    //左转
+    // 左右旋转
 	if (game->keys.left)
-	{
-		double old_dir_x = p->dir_x;
-		p->dir_x = p->dir_x * cos(-ROTATE_SPEED) - p->dir_y * sin(-ROTATE_SPEED);
-		p->dir_y = old_dir_x * sin(-ROTATE_SPEED) + p->dir_y * cos(-ROTATE_SPEED);
-		double old_plane_x = p->plane_x;
-		p->plane_x = p->plane_x * cos(-ROTATE_SPEED) - p->plane_y * sin(-ROTATE_SPEED);
-		p->plane_y = old_plane_x * sin(-ROTATE_SPEED) + p->plane_y * cos(-ROTATE_SPEED);
-	}
-    //右转
+		rotate_player(p, -ROTATE_SPEED);
 	if (game->keys.right)
+		rotate_player(p, ROTATE_SPEED);
+}
+
+// void	clear_image(t_img *img, int color)
+// {
+// 	int	x;
+// 	int	y;
+
+// 	y = 0;
+// 	while (y < img->height)
+// 	{
+// 		x = 0;
+// 		while (x < img->width)
+// 		{
+// 			put_px(img, x, y, color);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
+
+void	clear_image(t_img *img, int color)
+{
+	int		total_pixels;
+	int		*dst;
+	int		i;
+
+	if (!img || !img->data)
+		return;
+
+	total_pixels = img->width * img->height;
+	dst = (int *)img->data;
+	i = 0;
+	while (i < total_pixels)
 	{
-		double old_dir_x = p->dir_x;
-		p->dir_x = p->dir_x * cos(ROTATE_SPEED) - p->dir_y * sin(ROTATE_SPEED);
-		p->dir_y = old_dir_x * sin(ROTATE_SPEED) + p->dir_y * cos(ROTATE_SPEED);
-		double old_plane_x = p->plane_x;
-		p->plane_x = p->plane_x * cos(ROTATE_SPEED) - p->plane_y * sin(ROTATE_SPEED);
-		p->plane_y = old_plane_x * sin(ROTATE_SPEED) + p->plane_y * cos(ROTATE_SPEED);
+		dst[i] = color;
+		i++;
 	}
 }
 
-
-int	render_game(t_game *game)
-{
-	update_player(game);
-	mlx_clear_window(game->mlx.mlx_ptr, game->mlx.win_ptr);
-	
-    //用玩家视角投射光线生成视图（raycasting）
-    // cast_rays(game);
-	// draw_walls(game);
-
-	// minimap：
-	// draw_minimap(game);
-	// draw_crosshair(game);
-
-	return (0);
-}

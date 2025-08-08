@@ -6,7 +6,7 @@
 # include <math.h>
 # include <sys/time.h>
 # include <stdlib.h>
-# include "../mlx_linux/mlx.h"
+# include "../minilibx-linux/mlx.h"
 
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
@@ -28,6 +28,9 @@
 # define LEFT_INT 128
 # define RIGHT 65363
 # define RIGHT_INT 129
+# define KEY_LEFT_BRACKET   33  // [
+# define KEY_RIGHT_BRACKET  30  // ]
+
 
 /*TEXTURE*/
 # define TEXTURE_SIZE 256
@@ -43,6 +46,20 @@
 
 # define MOVE_SPEED 0.05
 # define ROTATE_SPEED 0.05
+
+/*MINIMAP*/
+# define MM_WALL    0x30303A
+# define MM_FLOOR   0x70707A
+# define MM_PLAYER  0xFF4040
+# define MM_BORDER  0x202024
+# define MM_ARROW   0xFFAA00
+
+/*CROSS*/
+# define CROSS_COLOR 0x00FF00 // 绿色
+# define CROSS_ALPHA 0.6      // 半透明 60%
+# define GAP         6        // 中心到短线起点的距离
+# define LINE_LEN    8        // 短线长度
+# define DOT_RADIUS  2        // 中心圆点半径 
 
 typedef struct s_img
 {
@@ -64,7 +81,7 @@ typedef struct s_player
 	double dir_y;
 	double plane_x;
     double plane_y;
-    double camera_x;
+    double plane_len;
 }              t_player;
 
 typedef struct s_ray
@@ -118,10 +135,12 @@ typedef struct s_game
 	int			win_width;
 	int			win_height;
 	t_ray		*rays;
+	double  shadow_factor; // 阴影亮度系数，范围 0.0 ~ 1.0
 }	t_game;
 
 /*INIT && FREE*/
 int	init_game(t_game *game, char **map, int width, int height);
+// int	init_game(t_game *game, const char *map_path);
 void	free_game(t_game *game);
 int	exit_game(t_game *game, int exit_code);
 int	init_img(void *mlx, t_img *img, int width, int height);
@@ -134,12 +153,40 @@ void	free_rays(t_ray **rays);
 int	init_texture_img(void *mlx_ptr, t_img *img, char *path);
 int	init_textures(t_texture *tex, void *mlx_ptr);
 void	free_textures(t_texture *tex, void *mlx_ptr);
+int	init_player(t_player *player, char **map);
 
+/*PASER&MAP*/
 int	is_map_line(char *line);
 int	get_map_width(char **map);
 int	get_map_height(char **map);
 int	normalize_map(t_game *game, char **raw_lines, int line_count);
 int	init_map(t_game *game, const char *filepath);
 void	free_map(char **map);
+
+/*SETUP*/
+void	rotate_player(t_player *p, double angle);
+void	update_player(t_game *game);
+void	clear_image(t_img *img, int color);
+int	set_up_game(t_game *game);
+int	render_game(t_game *game);
+
+/*KEY*/
+int	key_press(int keycode, t_game *game);
+int	key_release(int keycode, t_game *game);
+int	exit_button(t_game *game);
+
+/*MINIMAP*/
+void	put_px(t_img *img, int x, int y, int color);
+void	draw_rect(t_img *img, int x, int y, int w, int h, int color);
+void	draw_line(t_img *img, int x0, int y0, int x1, int y1, int color);
+int	minimap_tile_size(t_game *g);
+void	draw_border(t_img *img, int x, int y, int w, int h, int color);
+void	draw_minimap(t_game *game);
+
+/*RAYCASTING*/
+void	cast_rays(t_game *game);
+
+/*MAIN*/
+int	main(int argc, char **argv);
 
 #endif

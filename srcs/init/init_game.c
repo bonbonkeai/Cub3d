@@ -1,23 +1,62 @@
 #include "cub3d.h"
 
-int	init_game(t_game *game, const char *map_path)
+// int	init_game(t_game *game, char **map, int width, int height)
+// {
+// 	game->map = map;
+// 	game->map_width = width;
+// 	game->map_height = height;
+// 	game->win_width = WIN_WIDTH;
+// 	game->win_height = WIN_HEIGHT;
+// 	if (!init_mlx(&game->mlx, game->win_width, game->win_height))
+// 	    return (0);
+// 	if (!init_player(&game->player, game->map))
+// 		return (0);
+// 	if (!init_textures(&game->textures, game->mlx.mlx_ptr))
+// 		return (0);
+// 	if (!init_keys(&game->keys))
+// 		return (0);
+// 	if (!init_rays(&game->rays, game->win_width))
+// 		return (0);
+// 	return (1);
+// }
+
+int	init_game(t_game *game, char **map, int map_width, int map_height)
 {
-	if (!init_map(game, map_path))
-		return (0);
+	game->map = map;
+	game->map_width = map_width;
+	game->map_height = map_height;
 	game->win_width = WIN_WIDTH;
 	game->win_height = WIN_HEIGHT;
+    game->shadow_factor = 0.7;
 	if (!init_mlx(&game->mlx, game->win_width, game->win_height))
-	    return (0);
+	{
+		ft_fprintf(2, "Error: Failed to initialize mlx\n");
+		exit_game(game, 1);
+	}
 	if (!init_player(&game->player, game->map))
-		return (0);
+	{
+		ft_fprintf(2, "Error: Failed to initialize player position\n");
+		exit_game(game, 1);
+	}
 	if (!init_textures(&game->textures, game->mlx.mlx_ptr))
-		return (0);
+	{
+		ft_fprintf(2, "Error: Failed to load textures\n");
+		exit_game(game, 1);
+	}
 	if (!init_keys(&game->keys))
-		return (0);
+	{
+		ft_fprintf(2, "Error: Failed to initialize keys\n");
+		exit_game(game, 1);
+	}
 	if (!init_rays(&game->rays, game->win_width))
-		return (0);
+	{
+		ft_fprintf(2, "Error: Failed to initialize rays\n");
+		exit_game(game, 1);
+	}
 	return (1);
 }
+
+
 
 void	free_game(t_game *game)
 {

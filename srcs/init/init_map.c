@@ -75,6 +75,45 @@ int	normalize_map(t_game *game, char **raw_lines, int line_count)
 }
 
 
+// int	init_map(t_game *game, const char *filepath)
+// {
+// 	int		fd;
+// 	char	*line;
+// 	char	**raw_lines;
+// 	int		map_start;
+// 	int		line_count;
+
+// 	fd = open(filepath, O_RDONLY);
+// 	if (fd < 0)
+// 		return (0);
+// 	raw_lines = malloc(sizeof(char *) * 1024);
+// 	if (!raw_lines)
+// 		return (0);
+// 	map_start = 0;
+// 	line_count = 0;
+// 	while ((line = get_next_line(fd)))
+// 	{
+// 		if (!map_start && is_map_line(line))
+// 			map_start = 1;
+// 		if (map_start)
+// 		{
+// 			raw_lines[line_count] = ft_strtrim(line, "\n");
+// 			if (!raw_lines[line_count++])
+// 			{
+// 				free(line);
+// 				close(fd);
+// 				return (0);
+// 			}
+// 		}
+// 		free(line);
+// 	}
+// 	close(fd);
+// 	raw_lines[line_count] = NULL;
+// 	if (line_count == 0)
+// 		return (0);
+// 	return (normalize_map(game, raw_lines, line_count));
+// }
+
 int	init_map(t_game *game, const char *filepath)
 {
 	int		fd;
@@ -82,11 +121,13 @@ int	init_map(t_game *game, const char *filepath)
 	char	**raw_lines;
 	int		map_start;
 	int		line_count;
+	int		capacity;
 
 	fd = open(filepath, O_RDONLY);
 	if (fd < 0)
 		return (0);
-	raw_lines = malloc(sizeof(char *) * 1024);
+	capacity = 32;
+	raw_lines = malloc(sizeof(char *) * capacity);
 	if (!raw_lines)
 		return (0);
 	map_start = 0;
@@ -97,13 +138,27 @@ int	init_map(t_game *game, const char *filepath)
 			map_start = 1;
 		if (map_start)
 		{
+			// 动态扩容
+			if (line_count >= capacity - 1)
+			{
+				capacity *= 2;
+				char **tmp = realloc(raw_lines, sizeof(char *) * capacity);
+				if (!tmp)
+				{
+					free(line);
+					close(fd);
+					return (0);
+				}
+				raw_lines = tmp;
+			}
 			raw_lines[line_count] = ft_strtrim(line, "\n");
-			if (!raw_lines[line_count++])
+			if (!raw_lines[line_count])
 			{
 				free(line);
 				close(fd);
 				return (0);
 			}
+			line_count++;
 		}
 		free(line);
 	}
@@ -113,6 +168,7 @@ int	init_map(t_game *game, const char *filepath)
 		return (0);
 	return (normalize_map(game, raw_lines, line_count));
 }
+
 
 void	free_map(char **map)
 {
