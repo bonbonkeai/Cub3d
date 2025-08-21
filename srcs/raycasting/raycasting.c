@@ -214,7 +214,7 @@ void	cast_rays(t_game *game)
 			wall_x = game->player.x + perp_wall_dist * ray_dir_x;
 		wall_x -= floor(wall_x);
 
-		// 计算纹理 X 坐标（安全取模）
+		//计算纹理 X 坐标（安全取模）
 		int	tex_x = (int)(wall_x * (double)tex->width);
 		if ((side == 0 && ray_dir_x > 0) || (side == 1 && ray_dir_y < 0))
 			tex_x = tex->width - tex_x - 1;
@@ -223,16 +223,16 @@ void	cast_rays(t_game *game)
 		else if (tex_x >= tex->width)
 			tex_x = tex->width - 1;
 
-		// 计算纹理 Y 步长
+		//计算纹理 Y 步长
 		double	step = 1.0 * tex->height / line_height;
 		double	tex_pos = (draw_start - game->win_height / 2 + line_height / 2) * step;
 
-		// ===== 1. 画天花板 =====
+		//画天花板
 		int	y = 0;
 		while (y < draw_start)
 			put_px(&game->mlx.img, x, y++, game->textures.ceiling_color);
 
-		// ===== 2. 画墙面 =====
+		//画墙面
 		while (y < draw_end)
         {
             int tex_y = (int)tex_pos % tex->height;
@@ -257,7 +257,7 @@ void	cast_rays(t_game *game)
             put_px(&game->mlx.img, x, y, color);
             y++;
         }
-		// ===== 3. 画地板 =====
+		// 画地板
 		while (y < game->win_height)
 			put_px(&game->mlx.img, x, y++, game->textures.floor_color);
 
