@@ -128,9 +128,18 @@ void	cast_rays(t_game *game)
 		int		map_x = (int)game->player.x;
 		int		map_y = (int)game->player.y;
 
-		double	delta_dist_x = (ray_dir_x == 0) ? 1e30 : fabs(1 / ray_dir_x);
-		double	delta_dist_y = (ray_dir_y == 0) ? 1e30 : fabs(1 / ray_dir_y);
+		double	delta_dist_x;
+		if (ray_dir_x == 0.0)
+			delta_dist_x = 1e30;
+		else
+			delta_dist_x = fabs(1.0 / ray_dir_x);
 
+		double	delta_dist_y;
+		if (ray_dir_y == 0.0)
+			delta_dist_y = 1e30;
+		else
+			delta_dist_y = fabs(1.0 / ray_dir_x);
+		
 		double	side_dist_x;
 		double	side_dist_y;
 		int		step_x;
