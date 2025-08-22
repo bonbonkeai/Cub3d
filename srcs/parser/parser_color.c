@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 static int	is_valid_color(int val)
 {

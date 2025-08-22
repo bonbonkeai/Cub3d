@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 int	init_img(void *mlx, t_img *img, int width, int height)
 {
@@ -19,10 +19,16 @@ int	init_img(void *mlx, t_img *img, int width, int height)
 
 void	free_img(void *mlx_ptr, t_img *img)
 {
-	if (img && img->img_ptr)
+	if (img)
 	{
-		mlx_destroy_image(mlx_ptr, img->img_ptr);
+		if (mlx_ptr && img->img_ptr)
+			mlx_destroy_image(mlx_ptr, img->img_ptr);
 		img->img_ptr = NULL;
 		img->data = NULL;
+		img->width = 0;
+		img->height = 0;
+		img->bpp = 0;
+		img->size_line = 0;
+		img->endian = 0;
 	}
 }

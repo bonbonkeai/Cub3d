@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 int	init_keys(t_keys *keys)
 {

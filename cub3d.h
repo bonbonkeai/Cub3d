@@ -1,7 +1,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../Libft/libft.h"
+# include "Libft/libft.h"
 # include <fcntl.h>
 # include <math.h>
 # include <sys/time.h>
@@ -64,6 +64,8 @@
 # define PARSE_GOT_ALL(p) \
 	((p)->got_no && (p)->got_so && (p)->got_we && \
 	 (p)->got_ea && (p)->got_f  && (p)->got_c)
+
+// # define M_PI 3.14159265358979323846
 
 typedef struct s_img
 {

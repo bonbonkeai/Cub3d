@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 // 处理地图行
 int	handle_map_line(char *trim, char ***raw_lines, int *raw_count, int *map_started)

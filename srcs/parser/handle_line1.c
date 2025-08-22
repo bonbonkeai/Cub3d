@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 /* 纹理四个键 */
 int	handle_no_line(t_game *g, t_parse *p, const char *s)

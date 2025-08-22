@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 int	init_rays(t_ray **rays, int screen_width)
 {

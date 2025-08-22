@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 int	main(int argc, char **argv)
 {
@@ -9,11 +9,12 @@ int	main(int argc, char **argv)
 		ft_fprintf(2, "Usage: ./cub3D map.cub\n");
 		return (1);
 	}
-    if (!parse_cub_file(argv[1], &game))
-    {    
-		free_game(&game);
-		return (1);
-	}
+	(void)argv;
+    // if (!parse_cub_file(argv[1], &game))
+    // {    
+	// 	free_game(&game);
+	// 	return (1);
+	// }
     if (!init_game(&game))
     {
 		free_game(&game);

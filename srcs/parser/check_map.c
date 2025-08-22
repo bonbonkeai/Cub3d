@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 static int flood_fill(char **map, int y, int x, t_game *game)
 {

@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 // int	init_game(t_game *game, char **map, int width, int height)
 // {
@@ -64,23 +64,27 @@ int	init_game(t_game *game)
 	if (!init_mlx(&game->mlx, game->win_width, game->win_height))
 	{
 		ft_fprintf(2, "Error: Failed to initialize mlx\n");
-		exit_game(game, 1);
+		// exit_game(game, 1);
+		return (-1);
 	}
 	init_texture_defaults(&game->textures);
 	if (!init_textures(&game->textures, game->mlx.mlx_ptr))
 	{
 		ft_fprintf(2, "Error: Failed to load textures\n");
-		exit_game(game, 1);
+		// exit_game(game, 1);
+		return (-1);
 	}
 	if (!init_keys(&game->keys))
 	{
 		ft_fprintf(2, "Error: Failed to initialize keys\n");
-		exit_game(game, 1);
+		// exit_game(game, 1);
+		return (-1);
 	}
 	if (!init_rays(&game->rays, game->win_width))
 	{
 		ft_fprintf(2, "Error: Failed to initialize rays\n");
-		exit_game(game, 1);
+		// exit_game(game, 1);
+		return (-1);
 	}
 	return (1);
 }

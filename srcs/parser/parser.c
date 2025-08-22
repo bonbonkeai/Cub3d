@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 static int	parse_header_line(t_game *game, t_parse *p, char *trim)
 {

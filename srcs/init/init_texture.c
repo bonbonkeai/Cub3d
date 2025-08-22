@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 void    init_texture_defaults(t_texture *tex)
 {
@@ -51,10 +51,14 @@ void    free_textures(t_texture *tex, void *mlx_ptr)
     free_img(mlx_ptr, &tex->so);
     free_img(mlx_ptr, &tex->we);
     free_img(mlx_ptr, &tex->ea);
-    free(tex->no_path);
-    free(tex->so_path);
-    free(tex->we_path);
-    free(tex->ea_path);
+    if (tex->no_path)
+        free(tex->no_path);
+    if (tex->so_path)
+        free(tex->so_path);
+    if (tex->we_path)
+        free(tex->we_path);
+    if (tex->ea_path)
+        free(tex->ea_path);
     tex->no_path = NULL;
     tex->so_path = NULL;
     tex->we_path = NULL;

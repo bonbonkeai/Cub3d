@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 // void	draw_crosshair(t_game *game)
 // {

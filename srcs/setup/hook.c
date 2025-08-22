@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 // int	set_up_game(t_game *game)
 // {
@@ -16,13 +16,17 @@ int	set_up_game(t_game *game)
 	if (!game->mlx.mlx_ptr || !game->mlx.win_ptr || !game->mlx.img.img_ptr)
 	{
 		ft_fprintf(2, "Error: Invalid MLX window or image\n");
-		exit_game(game, 1);
+		// exit_game(game, 1);
+		// free_game(game);
+		return (-1);
 	}
 	if (!game->textures.no.img_ptr || !game->textures.so.img_ptr ||
 		!game->textures.we.img_ptr || !game->textures.ea.img_ptr)
 	{
 		ft_fprintf(2, "Error: Missing texture(s)\n");
-		exit_game(game, 1);
+		// exit_game(game, 1);
+		// free_game(game);
+		return (-1);
 	}
 	// 键盘事件
 	mlx_hook(game->mlx.win_ptr, X_EVENT_KEY_PRESS, 0, key_press, game);

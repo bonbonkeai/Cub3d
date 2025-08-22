@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../../cub3d.h"
 
 int	init_mlx(t_mlx *mlx, int width, int height)
 {
