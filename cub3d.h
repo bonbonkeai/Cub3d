@@ -7,9 +7,9 @@
 # include <sys/time.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "../mlx_mac/mlx.h"
-# include "../mlx_mac2/mlx.h"
-// # include "../mlx_linux/mlx.h"
+// # include "../mlx_mac/mlx.h"
+// # include "../mlx_mac2/mlx.h"
+# include "../mlx_linux/mlx.h"
 # include <stdio.h>
 
 # define WIN_WIDTH 800

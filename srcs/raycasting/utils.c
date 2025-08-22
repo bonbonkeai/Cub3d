@@ -36,8 +36,10 @@ static void	put_px_alpha(t_img *img, int x, int y, int color, int alpha)
     int     final_b;
 	unsigned int	bg_color;
 
+	if (!img || !img->data)
+		return ;
 	if (x < 0 || y < 0 || x >= img->width || y >= img->height)
-		return;
+		return ;
 	dst = img->data + (y * img->size_line + x * (img->bpp / 8));
 	bg_color = *(unsigned int *)dst;
 	// 提取前景色 RGB
