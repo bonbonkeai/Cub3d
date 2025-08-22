@@ -146,7 +146,11 @@ void	draw_minimap(t_game *game)
 	{
 		int px = offx + (int)(game->player.x * (double)tile);
 		int py = offy + (int)(game->player.y * (double)tile);
-		int ps = (tile >= 6) ? 4 : 2;
+		int ps;
+		if (tile >= 6)
+			ps = 4;
+		else
+			ps = 2;
 		draw_rect(&game->mlx.img, px - ps / 2, py - ps / 2, ps, ps, MM_PLAYER);
 		{
 			int len = tile * 2;

@@ -52,13 +52,12 @@ int	render_game(t_game *game)
 	clear_image(&game->mlx.img, 0x000000);
 
 	// 3. 先画 3D 场景
-	cast_rays(game);   // 你自己的光线投射算法
-	// 或者 draw_walls(game);
+	cast_rays(game); // 光线投射算法
 
 	// 4. 再画 minimap（覆盖在 3D 上面）
 	draw_minimap(game);
 
-	// 5. 画准星（可选）
+	// 5. 画准星
 	draw_crosshair(game);
 
 	// 6. 一次性推送画面到窗口
