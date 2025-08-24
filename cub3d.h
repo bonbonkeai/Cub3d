@@ -65,7 +65,6 @@
 	((p)->got_no && (p)->got_so && (p)->got_we && \
 	 (p)->got_ea && (p)->got_f  && (p)->got_c)
 
-// # define M_PI 3.14159265358979323846
 
 typedef struct s_img
 {
@@ -168,34 +167,15 @@ typedef struct s_parse
 }	t_parse;
 
 /*PARSER*/
-int		parse_cub_file(const char *filepath, t_game *game);
-// int 	parse_color(const char *str, int *out_color);
-int		parse_color(char *trim, int *r, int *g, int *b);
-int		check_texture_file(const char *path);
-char	*dup_path_strict(const char *str);
-void	free_raw_lines(char **lines, int count);
-int 	check_map_closed(t_game *game);
-int 	check_single_player_start(t_game *game);
-int		append_line(char ***arr, int *count, char *line);
 int		is_map_line(const char *line);
 int		get_map_width(char **map);
 int		get_map_height(char **map);
 int		normalize_map(t_game *game, char **raw_lines, int line_count);
 int		init_map(t_game *game, const char *filepath);
 void	free_map(char **map);
-// int	init_player(t_player *player, char **map);
-int		check_and_init_player(t_game *game);
-int		handle_map_line(char *trim, char ***raw_lines, int *raw_count, int *map_started);
-int		finalize_map(t_game *game, char **raw_lines, int raw_count);
-int		validate_map(t_game *game);
+void	free_raw_lines(char **lines, int count);
+int 	append_line(char ***arr, int *count, char *line);
 void	init_parser(t_parse *p);
-int		handle_no_line(t_game *g, t_parse *p, const char *s);
-int		handle_so_line(t_game *g, t_parse *p, const char *s);
-int		handle_we_line(t_game *g, t_parse *p, const char *s);
-int		handle_ea_line(t_game *g, t_parse *p, const char *s);
-int		handle_empty_or_gap(t_parse *p, char *trim);
-int		handle_floor_line(t_game *g, t_parse *p, const char *s);
-int		handle_ceiling_line(t_game *g, t_parse *p, const char *s);
 
 /*INIT && FREE*/
 // int	init_game(t_game *game, char **map, int width, int height);
@@ -204,13 +184,15 @@ void	free_game(t_game *game);
 int		exit_game(t_game *game, int exit_code);
 int		init_img(void *mlx, t_img *img, int width, int height);
 void	free_img(void *mlx_ptr, t_img *img);
+int		check_and_init_player(t_game *game);
 int		init_keys(t_keys *keys);
 int		init_mlx(t_mlx *mlx, int width, int height);
 void	free_mlx(t_mlx *mlx);
 int		init_rays(t_ray **rays, int screen_width);
 void	free_rays(t_ray **rays);
 int		init_texture_img(void *mlx_ptr, t_img *img, const char *path);
-void    init_texture_defaults(t_texture *tex);
+// void    init_texture_defaults(t_texture *tex);
+int    init_texture_defaults(t_texture *tex);
 int		init_textures(t_texture *tex, void *mlx_ptr);
 void	free_textures(t_texture *tex, void *mlx_ptr);
 
@@ -218,7 +200,8 @@ void	free_textures(t_texture *tex, void *mlx_ptr);
 void	rotate_player(t_player *p, double angle);
 void	update_player(t_game *game);
 void	clear_image(t_img *img, int color);
-int		set_up_game(t_game *game);
+// int		set_up_game(t_game *game);
+void set_up_game(t_game *game);
 int		render_game(t_game *game);
 
 /*KEY*/

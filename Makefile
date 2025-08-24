@@ -14,6 +14,8 @@ SRCS = \
 	srcs/init/init_mlx.c \
 	srcs/init/init_ray.c \
 	srcs/init/init_texture.c \
+	srcs/init/init_player.c \
+	srcs/init/init_map.c \
 	srcs/main/cub3d.c \
 	srcs/raycasting/raycasting.c \
 	srcs/raycasting/utils.c \
@@ -22,15 +24,8 @@ SRCS = \
 	srcs/setup/key.c \
 	srcs/setup/minimap.c \
 	srcs/setup/mouse.c \
-	srcs/parser/check_init_map.c \
-	srcs/parser/check_init_player.c \
-	srcs/parser/handle_line1.c \
-	srcs/parser/check_map.c \
-	srcs/parser/parser_color.c \
-	srcs/parser/parser_tex.c \
-	srcs/parser/parser_split.c \
 	srcs/parser/parser_utils.c \
-	srcs/parser/parser.c \
+# 	srcs/parser/parser.c \
 
 OBJS = $(SRCS:.c=.o)
 
