@@ -56,14 +56,15 @@
 // 	return (1);
 // }
 
-//临时的map
 int create_test_map(t_game *game)
 {
     int i, j;
     
+    // 设置地图尺寸
     game->map_width = 8;
     game->map_height = 8;
     printf("Creating test map: %dx%d\n", game->map_width, game->map_height);
+    // 分配地图内存
     game->map = malloc(sizeof(char *) * game->map_height);
     if (!game->map)
     {
@@ -81,26 +82,31 @@ int create_test_map(t_game *game)
             free(game->map);
             return (0);
         }
+        // 初始化为墙
         ft_memset(game->map[i], '1', game->map_width);
         game->map[i][game->map_width] = '\0';
     }
+    // 创建简单的测试地图
     for (i = 1; i < game->map_height - 1; i++)
     {
         for (j = 1; j < game->map_width - 1; j++)
         {
-            game->map[i][j] = '0';
+            game->map[i][j] = '0'; // 空地
         }
     }
+    // 在中央放置玩家起始位置（朝北）
     if (game->map_height > 5 && game->map_width > 5)
     {
-        game->map[5][5] = 'N';
+        game->map[5][5] = 'N'; // 玩家起始位置
         ft_printf("Placed player 'N' at position [5][5]\n");
     }
     else
     {
+        // 如果地图太小，放在 (1,1)
         game->map[1][1] = 'N';
         ft_printf("Placed player 'N' at position [1][1]\n");
     }
+    // 打印地图用于调试
     ft_printf("Created test map:\n");
     for (i = 0; i < game->map_height; i++)
     {

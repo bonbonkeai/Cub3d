@@ -65,6 +65,7 @@
 	((p)->got_no && (p)->got_so && (p)->got_we && \
 	 (p)->got_ea && (p)->got_f  && (p)->got_c)
 
+// # define M_PI 3.14159265358979323846
 
 typedef struct s_img
 {
