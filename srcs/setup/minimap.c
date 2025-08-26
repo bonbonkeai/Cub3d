@@ -119,7 +119,7 @@ void	draw_minimap(t_game *game)
 	int		h;
 
 	if (!game || !game->map || !game->mlx.img.data)
-		return;
+		return ;
 	tile = minimap_tile_size(game);
 	offx = 8;
 	offy = 8;
@@ -160,3 +160,4 @@ void	draw_minimap(t_game *game)
 		}
 	}
 }
+

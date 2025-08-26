@@ -9,7 +9,7 @@
 # include <unistd.h>
 // # include "../mlx_mac/mlx.h"
 // # include "../mlx_mac2/mlx.h"
-# include "../mlx_linux/mlx.h"
+# include "./mlx_linux/mlx.h"
 # include <stdio.h>
 
 # define WIN_WIDTH 800
@@ -32,8 +32,6 @@
 # define LEFT_INT 128
 # define RIGHT 65363
 # define RIGHT_INT 129
-# define KEY_LEFT_BRACKET   33  // [
-# define KEY_RIGHT_BRACKET  30  // ]
 
 
 /*TEXTURE*/
@@ -65,7 +63,7 @@
 	((p)->got_no && (p)->got_so && (p)->got_we && \
 	 (p)->got_ea && (p)->got_f  && (p)->got_c)
 
-// # define M_PI 3.14159265358979323846
+# define MOUSE_SENSITIVITY 0.00015
 
 typedef struct s_img
 {
@@ -109,6 +107,7 @@ typedef struct s_texture
 	char 		*so_path;
 	char 		*we_path;
 	char 		*ea_path;
+
 	int			floor_color;
 	int			ceiling_color;
 	int 		floor_r;
@@ -116,7 +115,12 @@ typedef struct s_texture
 	int 		floor_b;
 	int     	ceiling_r;
     int     	ceiling_g;
-    int     	ceiling_b; 
+    int     	ceiling_b;
+
+	// t_img	floor_img;
+    // t_img	ceiling_img;
+    // char *floor_path;
+    // char *ceiling_path;
 }	t_texture;
 
 typedef struct s_keys
@@ -149,7 +153,6 @@ typedef struct s_game
 	int			win_width;
 	int			win_height;
 	t_ray		*rays;
-	double  	shadow_factor; // 阴影亮度系数，范围 0.0 ~ 1.0
 }	t_game;
 
 typedef struct s_parse
@@ -180,7 +183,8 @@ void	init_parser(t_parse *p);
 
 /*INIT && FREE*/
 // int	init_game(t_game *game, char **map, int width, int height);
-int		init_game(t_game *game);
+// int		init_game(t_game *game);
+int		init_game(t_game *game, const char *map_path);
 void	free_game(t_game *game);
 int		exit_game(t_game *game, int exit_code);
 int		init_img(void *mlx, t_img *img, int width, int height);
@@ -224,7 +228,9 @@ void	draw_minimap(t_game *game);
 
 /*RAYCASTING*/
 void	cast_rays(t_game *game);
-void	draw_crosshair(t_game *game);
+// void	draw_crosshair(t_game *game);
+void draw_crosshair(t_game *game, int size, int line_len, int gap, int color, int alpha);
+void draw_floor_and_ceiling(t_game *game);
 
 /*MAIN*/
 int		main(int argc, char **argv);

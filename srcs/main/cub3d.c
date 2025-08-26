@@ -9,13 +9,17 @@ int	main(int argc, char **argv)
 		ft_fprintf(2, "Usage: ./cub3D map.cub\n");
 		return (1);
 	}
-	(void)argv;
     // if (!parse_cub_file(argv[1], &game))
     // {    
 	// 	free_game(&game);
 	// 	return (1);
 	// }
-    if (!init_game(&game))
+    // if (!init_game(&game))
+    // {
+	// 	free_game(&game);
+	// 	return (1);
+	// }
+	 if (!init_game(&game, argv[1]))
     {
 		free_game(&game);
 		return (1);

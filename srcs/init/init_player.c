@@ -58,7 +58,8 @@ int	check_and_init_player(t_game *game)
 		game->player.dir_x = -1.0;
 		game->player.dir_y = 0.0;
 	}
-	game->player.plane_len = tan((60.0 * M_PI / 180.0) * 0.5);
+	// game->player.plane_len = tan((60.0 * M_PI / 180.0) * 0.5);
+	game->player.plane_len = tan((50.0 * M_PI / 180.0) * 0.5);
 	game->player.plane_x = -game->player.dir_y * game->player.plane_len;
 	game->player.plane_y = game->player.dir_x * game->player.plane_len;
 	game->map[fi][fj] = '0';

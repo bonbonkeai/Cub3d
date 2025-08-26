@@ -45,12 +45,14 @@ $(MLX_LIB):
 
 clean:
 	rm -f $(OBJS)
-	make -C ./Libft
-	make -C $(MLX_DIR)
+	make -C ./Libft clean
+	make -C $(MLX_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
 	rm -f $(LIBFT)
+	make -C ./Libft fclean
+	make -C $(MLX_DIR) clean
 
 re: fclean all
 

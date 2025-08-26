@@ -78,45 +78,55 @@ int	normalize_map(t_game *game, char **raw_lines, int line_count)
 	return (1);
 }
 
-int	init_map(t_game *game, const char *filepath)
+int init_map(t_game *game, const char *filepath)
 {
-	int		fd;
-	char	*line;
-	char	**raw_lines;
-	int		map_start;
-	int		line_count;
-	int		capacity;
+    int fd;
+	char **raw_lines;
+	int line_count;
+	char *line;
+	int map_start;
+	char *trimmed;
 
 	fd = open(filepath, O_RDONLY);
-	if (fd < 0)
-		return (0);
-	capacity = 32;
-	raw_lines = malloc(sizeof(char *) * capacity);
-	if (!raw_lines)
-		return (0);
-	map_start = 0;
-	line_count = 0;
-	while ((line = get_next_line(fd)))
+    if (fd < 0)
+    {
+        perror(filepath);
+        return (0);
+    }
+    raw_lines = malloc(sizeof(char *) * 32);
+    if (!raw_lines) 
 	{
-		if (!map_start && is_map_line(line))
-			map_start = 1;
-		if (map_start)
-		{
-			char *trimmed = ft_strtrim(line, "\n");
-			free(line);
-			if (!trimmed || !append_line(&raw_lines, &line_count, trimmed))
-			{
-				free(line);
-				close(fd);
-				return (0);
-			}
-		}
-		else
-			free(line);
+		close(fd);
+		return 0;
 	}
-	close(fd);
-	raw_lines[line_count] = NULL;
-	if (line_count == 0)
-		return (0);
-	return (normalize_map(game, raw_lines, line_count));
+    line_count = 0;
+    map_start = 0;
+    while ((line = get_next_line(fd)))
+    {
+        trimmed = ft_strtrim(line, " \n\r\t");
+        free(line);
+        if (!trimmed) 
+			continue ;
+        if (!map_start)
+        {
+            if (is_map_line(trimmed))
+                map_start = 1;
+            else
+            {
+                free(trimmed);
+                continue;
+            }
+        }
+        if (!append_line(&raw_lines, &line_count, trimmed))
+        {
+            free(trimmed);
+            close(fd);
+            return (0);
+        }
+    }
+    close(fd);
+    if (line_count == 0) 
+		return 0;
+    raw_lines[line_count] = NULL;
+    return (normalize_map(game, raw_lines, line_count));
 }

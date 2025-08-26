@@ -58,24 +58,6 @@ void	update_player(t_game *game)
 		rotate_player(p, ROTATE_SPEED);
 }
 
-// void	clear_image(t_img *img, int color)
-// {
-// 	int	x;
-// 	int	y;
-
-// 	y = 0;
-// 	while (y < img->height)
-// 	{
-// 		x = 0;
-// 		while (x < img->width)
-// 		{
-// 			put_px(img, x, y, color);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
-
 void	clear_image(t_img *img, int color)
 {
 	int		total_pixels;
