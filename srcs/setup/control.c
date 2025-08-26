@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   control.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/26 16:35:36 by jdu               #+#    #+#             */
+/*   Updated: 2025/08/26 16:35:37 by jdu              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../cub3d.h"
 
 void	rotate_player(t_player *p, double angle)
@@ -13,12 +25,8 @@ void	rotate_player(t_player *p, double angle)
 	p->plane_y = old_plane_x * sin(angle) + p->plane_y * cos(angle);
 }
 
-
-void	update_player(t_game *game)
+static void update_w_s(t_game *game, t_player *p)
 {
-	t_player *p;
-    
-    p = &game->player;
     //向前
 	if (game->keys.w)
 	{
@@ -35,6 +43,10 @@ void	update_player(t_game *game)
 		if (game->map[(int)(p->y - p->dir_y * MOVE_SPEED)][(int)(p->x)] != '1')
 			p->y -= p->dir_y * MOVE_SPEED;
 	}
+}
+
+static void update_a_d(t_game *game, t_player *p)
+{
     //向左平移
 	if (game->keys.a)
 	{
@@ -51,12 +63,64 @@ void	update_player(t_game *game)
 		if (game->map[(int)(p->y + p->plane_y * MOVE_SPEED)][(int)(p->x)] != '1')
 			p->y += p->plane_y * MOVE_SPEED;
 	}
+}
+
+void	update_player(t_game *game)
+{
+	t_player *p;
+
+    p = &game->player;
+	update_w_s(game, p);
+	update_a_d(game, p);
     // 左右旋转
 	if (game->keys.left)
 		rotate_player(p, -ROTATE_SPEED);
 	if (game->keys.right)
 		rotate_player(p, ROTATE_SPEED);
 }
+// void	update_player(t_game *game)
+// {
+// 	t_player *p;
+
+//     p = &game->player;
+//     向前
+// 	if (game->keys.w)
+// 	{
+// 		if (game->map[(int)(p->y)][(int)(p->x + p->dir_x * MOVE_SPEED)] != '1')
+// 			p->x += p->dir_x * MOVE_SPEED;
+// 		if (game->map[(int)(p->y + p->dir_y * MOVE_SPEED)][(int)(p->x)] != '1')
+// 			p->y += p->dir_y * MOVE_SPEED;
+// 	}
+//     //向后
+// 	if (game->keys.s)
+// 	{
+// 		if (game->map[(int)(p->y)][(int)(p->x - p->dir_x * MOVE_SPEED)] != '1')
+// 			p->x -= p->dir_x * MOVE_SPEED;
+// 		if (game->map[(int)(p->y - p->dir_y * MOVE_SPEED)][(int)(p->x)] != '1')
+// 			p->y -= p->dir_y * MOVE_SPEED;
+// 	}
+//     //向左平移
+// 	if (game->keys.a)
+// 	{
+// 		if (game->map[(int)(p->y)][(int)(p->x - p->plane_x * MOVE_SPEED)] != '1')
+// 			p->x -= p->plane_x * MOVE_SPEED;
+// 		if (game->map[(int)(p->y - p->plane_y * MOVE_SPEED)][(int)(p->x)] != '1')
+// 			p->y -= p->plane_y * MOVE_SPEED;
+// 	}
+//     //向右平移
+// 	if (game->keys.d)
+// 	{
+// 		if (game->map[(int)(p->y)][(int)(p->x + p->plane_x * MOVE_SPEED)] != '1')
+// 			p->x += p->plane_x * MOVE_SPEED;
+// 		if (game->map[(int)(p->y + p->plane_y * MOVE_SPEED)][(int)(p->x)] != '1')
+// 			p->y += p->plane_y * MOVE_SPEED;
+// 	}
+//     // 左右旋转
+// 	if (game->keys.left)
+// 		rotate_player(p, -ROTATE_SPEED);
+// 	if (game->keys.right)
+// 		rotate_player(p, ROTATE_SPEED);
+// }
 
 void	clear_image(t_img *img, int color)
 {

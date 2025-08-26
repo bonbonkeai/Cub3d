@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_player.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/26 16:33:39 by jdu               #+#    #+#             */
+/*   Updated: 2025/08/26 16:33:41 by jdu              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../cub3d.h"
 
 int	check_and_init_player(t_game *game)
@@ -63,7 +75,7 @@ int	check_and_init_player(t_game *game)
 	game->player.plane_x = -game->player.dir_y * game->player.plane_len;
 	game->player.plane_y = game->player.dir_x * game->player.plane_len;
 	game->map[fi][fj] = '0';
-	ft_printf("Player initialized successfully at: (%.1f, %.1f), facing: %c\n", 
-           game->player.x, game->player.y, fc);
+	// ft_printf("Player initialized successfully at: (%.1f, %.1f), facing: %c\n", 
+    //        game->player.x, game->player.y, fc);
 	return (1);
 }

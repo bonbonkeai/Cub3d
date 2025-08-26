@@ -1,33 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_texture.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/26 16:33:52 by jdu               #+#    #+#             */
+/*   Updated: 2025/08/26 16:33:54 by jdu              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../cub3d.h"
-
-// void    init_texture_defaults(t_texture *tex)
-// {
-//     tex->no.img_ptr = NULL;
-//     tex->so.img_ptr = NULL;
-//     tex->we.img_ptr = NULL;
-//     tex->ea.img_ptr = NULL;
-//     tex->no.data = NULL;
-//     tex->so.data = NULL;
-//     tex->we.data = NULL;
-//     tex->ea.data = NULL;
-//     tex->no_path = NULL;
-//     tex->so_path = NULL;
-//     tex->we_path = NULL;
-//     tex->ea_path = NULL;
-// 	// 临时使用纯色代替纹理（修改 init_textures 函数或创建简单的 1x1 XPM）
-// 	// 设置地板和天花板颜色
-// 	tex->floor_color = 0x404040;
-// 	tex->ceiling_color = 0x87CEEB;
-// 	tex->floor_r = 64;
-// 	tex->floor_g = 64;
-// 	tex->floor_b = 64;
-// 	tex->ceiling_r = 135;
-// 	tex->ceiling_g = 206;
-// 	tex->ceiling_b = 235;
-
-// }
-
-int    init_texture_defaults(t_texture *tex)
+static void init_texture_data(t_texture *tex)
 {
     tex->no.img_ptr = NULL;
     tex->so.img_ptr = NULL;
@@ -37,11 +21,28 @@ int    init_texture_defaults(t_texture *tex)
     tex->so.data = NULL;
     tex->we.data = NULL;
     tex->ea.data = NULL;
+    // 临时使用纯色代替纹理
+	// 设置地板和天花板颜色
+	tex->floor_color = 0x404040;
+	tex->ceiling_color = 0x87CEEB;
+	tex->floor_r = 64;
+	tex->floor_g = 64;
+	tex->floor_b = 64;
+	tex->ceiling_r = 135;
+	tex->ceiling_g = 206;
+	tex->ceiling_b = 235;
+}
+
+int    init_texture_defaults(t_texture *tex)
+{
+    init_texture_data(tex);
     tex->no_path = ft_strdup("textures/mur/north.xpm");
 	tex->so_path = ft_strdup("textures/mur/south.xpm");
 	tex->we_path = ft_strdup("textures/mur/west.xpm");
 	tex->ea_path = ft_strdup("textures/mur/east.xpm");
-
+    if (!tex->no_path || !tex->so_path || 
+		!tex->we_path || !tex->ea_path)
+		return (ft_fprintf(2, "Error: Failed to allocate texture paths\n"), 0);
     /*
     // tex->floor_img.img_ptr = NULL;
     // tex->ceiling_img.img_ptr = NULL;
@@ -53,22 +54,6 @@ int    init_texture_defaults(t_texture *tex)
 	// 	!tex->we_path || !tex->ea_path || 
     //     !tex->floor_path || !tex->ceiling_path)
     */
-    if (!tex->no_path || !tex->so_path || 
-		!tex->we_path || !tex->ea_path)
-    {
-		ft_fprintf(2, "Error: Failed to allocate texture paths\n");
-		return (0);
-	}
-	// 临时使用纯色代替纹理
-	// 设置地板和天花板颜色
-	tex->floor_color = 0x404040;
-	tex->ceiling_color = 0x87CEEB;
-	tex->floor_r = 64;
-	tex->floor_g = 64;
-	tex->floor_b = 64;
-	tex->ceiling_r = 135;
-	tex->ceiling_g = 206;
-	tex->ceiling_b = 235;
     return (1);
 
 }

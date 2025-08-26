@@ -12,13 +12,18 @@ SRCS = \
 	srcs/init/init_img.c \
 	srcs/init/init_keys.c \
 	srcs/init/init_mlx.c \
-	srcs/init/init_ray.c \
 	srcs/init/init_texture.c \
 	srcs/init/init_player.c \
 	srcs/init/init_map.c \
 	srcs/main/cub3d.c \
 	srcs/raycasting/raycasting.c \
 	srcs/raycasting/utils.c \
+	srcs/raycasting/calculate.c \
+	srcs/raycasting/dda.c \
+	srcs/raycasting/draw.c \
+	srcs/raycasting/init_step_ray.c \
+	srcs/raycasting/draw_crosshair.c \
+	srcs/raycasting/put_px_alpha.c \
 	srcs/setup/control.c \
 	srcs/setup/hook.c \
 	srcs/setup/key.c \
@@ -26,6 +31,7 @@ SRCS = \
 	srcs/setup/mouse.c \
 	srcs/parser/parser_utils.c \
 # 	srcs/parser/parser.c \
+	srcs/init/init_ray.c \
 
 OBJS = $(SRCS:.c=.o)
 

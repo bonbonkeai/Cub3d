@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/26 16:32:23 by jdu               #+#    #+#             */
+/*   Updated: 2025/08/26 16:32:26 by jdu              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -7,8 +19,6 @@
 # include <sys/time.h>
 # include <stdlib.h>
 # include <unistd.h>
-// # include "../mlx_mac/mlx.h"
-// # include "../mlx_mac2/mlx.h"
 # include "./mlx_linux/mlx.h"
 # include <stdio.h>
 
@@ -33,7 +43,6 @@
 # define RIGHT 65363
 # define RIGHT_INT 129
 
-
 /*TEXTURE*/
 # define TEXTURE_SIZE 256
 
@@ -42,8 +51,8 @@
 # define X_EVENT_KEY_RELEASE  3
 # define X_EVENT_EXIT         17
 
-# define MOVE_SPEED 0.01
-# define ROTATE_SPEED 0.025
+# define MOVE_SPEED 0.005
+# define ROTATE_SPEED 0.003
 
 /*MINIMAP*/
 # define MM_WALL    0x30303A
@@ -52,18 +61,12 @@
 # define MM_BORDER  0x202024
 # define MM_ARROW   0xFFAA00
 
-/*CROSS*/
-# define CROSS_COLOR 0x00FF00 // 绿色
-# define CROSS_ALPHA ((int)0.6 * 255)      // 半透明 60%
-# define GAP         6        // 中心到短线起点的距离
-# define LINE_LEN    8        // 短线长度
-# define DOT_RADIUS  2        // 中心圆点半径 
-
 # define PARSE_GOT_ALL(p) \
 	((p)->got_no && (p)->got_so && (p)->got_we && \
 	 (p)->got_ea && (p)->got_f  && (p)->got_c)
 
-# define MOUSE_SENSITIVITY 0.0002
+# define MOUSE_SENSITIVITY 0.00015
+# define M_PI 3.14159265358979323846
 
 typedef struct s_img
 {
@@ -86,16 +89,6 @@ typedef struct s_player
     double 		plane_y;
     double 		plane_len;
 }              t_player;
-
-typedef struct s_ray
-{
-	double		angle;
-	double		distance;
-	int			hit_vertical;
-	int			texture_id;
-	double		hit_x;
-	double		hit_y;
-}	t_ray;
 
 typedef struct s_texture
 {
@@ -152,7 +145,6 @@ typedef struct s_game
 	int			map_height;
 	int			win_width;
 	int			win_height;
-	t_ray		*rays;
 }	t_game;
 
 typedef struct s_parse
@@ -170,6 +162,49 @@ typedef struct s_parse
 	const char	*filepath;
 }	t_parse;
 
+typedef struct s_ray_data
+{
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		map_x;
+	int		map_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	int		step_x;
+	int		step_y;
+	int		side;
+}	t_ray_data;
+
+typedef struct s_draw_data
+{
+	int	line_height;
+	int	draw_start;
+	int	draw_end;
+}	t_draw_data;
+
+typedef struct s_wall_draw_params
+{
+	t_img	*tex;
+	int		tex_x;
+	double	step;
+	double	tex_pos;
+	int		x;
+	int		y;
+	int		draw_end;
+	int		side;
+}	t_wall_draw_params;
+
+typedef struct s_crosshair_params
+{
+	int	size;
+	int	line_len;
+	int	gap;
+	int	color;
+	int	alpha;
+}	t_crosshair_params;
+
 /*PARSER*/
 int		is_map_line(const char *line);
 int		get_map_width(char **map);
@@ -182,7 +217,6 @@ int 	append_line(char ***arr, int *count, char *line);
 void	init_parser(t_parse *p);
 
 /*INIT && FREE*/
-// int	init_game(t_game *game, char **map, int width, int height);
 // int		init_game(t_game *game);
 int		init_game(t_game *game, const char *map_path);
 void	free_game(t_game *game);
@@ -193,10 +227,7 @@ int		check_and_init_player(t_game *game);
 int		init_keys(t_keys *keys);
 int		init_mlx(t_mlx *mlx, int width, int height);
 void	free_mlx(t_mlx *mlx);
-int		init_rays(t_ray **rays, int screen_width);
-void	free_rays(t_ray **rays);
 int		init_texture_img(void *mlx_ptr, t_img *img, const char *path);
-// void    init_texture_defaults(t_texture *tex);
 int    init_texture_defaults(t_texture *tex);
 int		init_textures(t_texture *tex, void *mlx_ptr);
 void	free_textures(t_texture *tex, void *mlx_ptr);
@@ -217,7 +248,6 @@ int		exit_button(t_game *game);
 /*MOUSE*/
 int		mouse_move(int x, int y, t_game *game);
 
-
 /*MINIMAP*/
 void	put_px(t_img *img, int x, int y, int color);
 void	draw_rect(t_img *img, int x, int y, int w, int h, int color);
@@ -227,10 +257,57 @@ void	draw_border(t_img *img, int x, int y, int w, int h, int color);
 void	draw_minimap(t_game *game);
 
 /*RAYCASTING*/
+void	draw_crosshair(t_game *game, int size, int line_len, 
+			int gap, int color, int alpha);
+void	draw_crosshair_center(t_img *img, int cx, int cy, 
+				t_crosshair_params *params);
+void	draw_crosshair_up(t_img *img, int cx, int cy,
+				t_crosshair_params *params);
+void	draw_crosshair_down(t_img *img, int cx, int cy,
+				t_crosshair_params *params);
+void	draw_crosshair_left(t_img *img, int cx, int cy,
+				t_crosshair_params *params);
+void	draw_crosshair_right(t_img *img, int cx, int cy,
+				t_crosshair_params *params);
+void	init_crosshair_params(int size, int line_len, int gap,
+				int color, int alpha, t_crosshair_params *params);
+void	calculate_crosshair_center(t_game *game, int *cx, int *cy);
+int		is_valid_coords(t_img *img, int x, int y);
+void	extract_color_rgb(int color, int *r, int *g, int *b);
+void	extract_bg_rgb(unsigned int bg_color, int *bg_r, 
+				int *bg_g, int *bg_b);
+void	blend_colors(int r, int g, int b, int bg_r, int bg_g, int bg_b,
+				int alpha, int *final_r, int *final_g, int *final_b);
+unsigned int	combine_rgb(int final_r, int final_g, int final_b);
+void	put_px_alpha(t_img *img, int x, int y, int color, int alpha);
+
 void	cast_rays(t_game *game);
-// void	draw_crosshair(t_game *game);
-void draw_crosshair(t_game *game, int size, int line_len, int gap, int color, int alpha);
-void draw_floor_and_ceiling(t_game *game);
+void	render_ray(t_game *game, int x);
+void	init_ray_data(t_game *game, double camera_x, t_ray_data *ray);
+void	calculate_delta_dist(double ray_dir_x, double ray_dir_y, 
+			double *delta_dist_x, double *delta_dist_y);
+void	init_step_x(double ray_dir_x, double player_x, 
+			int map_x, t_ray_data *ray);
+void	init_step_y(double ray_dir_y, double player_y, 
+			int map_y, t_ray_data *ray);
+void	perform_dda(t_game *game, t_ray_data *ray);
+void	dda_step(t_ray_data *ray);
+double	calculate_perp_wall_dist(double ray_dir_x, double ray_dir_y,
+			t_game *game, t_ray_data *ray);
+void	calculate_draw_params(t_game *game, double perp_wall_dist,
+			t_draw_data *draw);
+t_img	*select_texture(t_game *game, double ray_dir_x, 
+			double ray_dir_y, int side);
+double	calculate_wall_x(double ray_dir_x, double ray_dir_y,
+			t_game *game, t_ray_data *ray, double perp_wall_dist);
+int		calculate_tex_x(double wall_x, t_img *tex, double ray_dir_x,
+			double ray_dir_y, int side);
+void	setup_wall_drawing(t_game *game, t_ray_data *ray, t_draw_data *draw,
+			t_wall_draw_params *params, int x, double perp_wall_dist);
+void	draw_ceiling(t_game *game, int x, int draw_start);
+void	draw_wall(t_game *game, t_wall_draw_params *params);
+void	draw_floor(t_game *game, int x, int y);
+int		apply_side_shading(int color, int side);
 
 /*MAIN*/
 int		main(int argc, char **argv);
