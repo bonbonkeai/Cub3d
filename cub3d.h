@@ -42,8 +42,8 @@
 # define X_EVENT_KEY_RELEASE  3
 # define X_EVENT_EXIT         17
 
-# define MOVE_SPEED 0.05
-# define ROTATE_SPEED 0.05
+# define MOVE_SPEED 0.01
+# define ROTATE_SPEED 0.025
 
 /*MINIMAP*/
 # define MM_WALL    0x30303A
@@ -63,7 +63,7 @@
 	((p)->got_no && (p)->got_so && (p)->got_we && \
 	 (p)->got_ea && (p)->got_f  && (p)->got_c)
 
-# define MOUSE_SENSITIVITY 0.00015
+# define MOUSE_SENSITIVITY 0.0002
 
 typedef struct s_img
 {
