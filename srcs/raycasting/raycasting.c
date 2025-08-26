@@ -25,7 +25,7 @@ void	cast_rays(t_game *game)
 		if (fabs(ray_dir_y) < 1e-10)
 			delta_dist_y = 1e30;
 		else
-			delta_dist_y = fabs(1.0 / ray_dir_x);
+			delta_dist_y = fabs(1.0 / ray_dir_y);
 		
 		double	side_dist_x;
 		double	side_dist_y;
