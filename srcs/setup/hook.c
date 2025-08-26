@@ -15,12 +15,12 @@
 void set_up_game(t_game *game)
 {
    	// 键盘事件
-	mlx_hook(game->mlx.win_ptr, X_EVENT_KEY_PRESS, 1L << 0, key_press, game);
-	mlx_hook(game->mlx.win_ptr, X_EVENT_KEY_RELEASE, 1L << 1, key_release, game);
+	mlx_hook(game->mlx.win_ptr, EVENT_KEY_PRESS, 1L << 0, key_press, game);
+	mlx_hook(game->mlx.win_ptr, EVENT_KEY_RELEASE, 1L << 1, key_release, game);
 	// 鼠标移动事件
 	mlx_hook(game->mlx.win_ptr, 6, 1L << 6, mouse_move, game);
 	// 窗口关闭按钮
-	mlx_hook(game->mlx.win_ptr, X_EVENT_EXIT, 0, exit_button, game);
+	mlx_hook(game->mlx.win_ptr, EVENT_EXIT, 0, exit_button, game);
 	// 启动时隐藏鼠标 + 定位到中心
 	mlx_mouse_hide(game->mlx.mlx_ptr, game->mlx.win_ptr);
 	mlx_mouse_move(game->mlx.mlx_ptr, game->mlx.win_ptr,

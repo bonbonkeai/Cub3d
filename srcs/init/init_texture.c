@@ -42,7 +42,7 @@ int    init_texture_defaults(t_texture *tex)
 	tex->ea_path = ft_strdup("textures/mur/east.xpm");
     if (!tex->no_path || !tex->so_path || 
 		!tex->we_path || !tex->ea_path)
-		return (ft_fprintf(2, "Error: Failed to allocate texture paths\n"), 0);
+		return (ft_fprintf(2, ERR_TEX_PATH), 0);
     /*
     // tex->floor_img.img_ptr = NULL;
     // tex->ceiling_img.img_ptr = NULL;

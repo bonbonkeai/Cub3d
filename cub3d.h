@@ -47,9 +47,9 @@
 # define TEXTURE_SIZE 256
 
 /*EVEN*/
-# define X_EVENT_KEY_PRESS    2
-# define X_EVENT_KEY_RELEASE  3
-# define X_EVENT_EXIT         17
+# define EVENT_KEY_PRESS    2
+# define EVENT_KEY_RELEASE  3
+# define EVENT_EXIT         17
 
 # define MOVE_SPEED 0.005
 # define ROTATE_SPEED 0.003
@@ -67,6 +67,13 @@
 
 # define MOUSE_SENSITIVITY 0.00015
 # define M_PI 3.14159265358979323846
+
+/*ERROR_INFO*/
+# define ERR_MLX "Error: Failed to initialize mlx\n"
+# define ERR_TEX "Error: Failed to load textures\n"
+# define ERR_KEY "Error: Failed to initialize keys\n"
+# define ERR_PLAYER "Error: Failed to initialize player\n"
+# define ERR_TEX_PATH "Error: Failed to allocate texture paths\n"
 
 typedef struct s_img
 {
