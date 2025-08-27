@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:32:23 by jdu               #+#    #+#             */
-/*   Updated: 2025/08/26 16:32:26 by jdu              ###   ########.fr       */
+/*   Updated: 2025/08/27 14:32:21 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,12 @@ void	free_map(char **map);
 void	free_raw_lines(char **lines, int count);
 int 	append_line(char ***arr, int *count, char *line);
 void	init_parser(t_parse *p);
+char	*trim_whitespace(char *str);
+int		is_empty_line(const char *line);
+int		is_texture(const char *line);
+int		is_color(const char *line);
+int		error_msg(const char *msg);
+
 
 /*INIT && FREE*/
 // int		init_game(t_game *game);
