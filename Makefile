@@ -28,6 +28,9 @@ SRCS = \
 	srcs/setup/hook.c \
 	srcs/setup/key.c \
 	srcs/setup/minimap.c \
+	srcs/setup/minimap_utils.c \
+	srcs/setup/minimap_utils2.c \
+	srcs/setup/draw_line.c \
 	srcs/setup/mouse.c \
 	srcs/parser/parser_utils.c \
 # 	srcs/parser/parser.c \

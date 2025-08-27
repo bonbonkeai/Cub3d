@@ -6,7 +6,7 @@
 /*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:32:43 by jdu               #+#    #+#             */
-/*   Updated: 2025/08/26 16:32:45 by jdu              ###   ########.fr       */
+/*   Updated: 2025/08/27 17:53:19 by jdu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@ int	init_game(t_game *game, const char *map_path)
 	game->win_height = WIN_HEIGHT;
 	if (!init_mlx(&game->mlx, game->win_width, game->win_height))
 		return (ft_fprintf(2, ERR_MLX), 0);
-    if (!init_map(game, map_path))
-		return (ft_fprintf(2, "Error: Failed to load map from file '%s'\n", map_path), 0);
+	if (!init_map(game, map_path))
+	{
+		ft_fprintf(2, "Error: Failed to load map from file '%s'\n", \
+			map_path);
+		return (0);
+	}
 	if (!check_and_init_player(game))
 		return (ft_fprintf(2, ERR_PLAYER), 0);
-	if (!init_texture_defaults(&game->textures) ||
+	if (!init_texture_defaults(&game->textures) || \
 		!init_textures(&game->textures, game->mlx.mlx_ptr))
 		return (ft_fprintf(2, ERR_TEX), 0);
 	if (!init_keys(&game->keys))
@@ -42,7 +46,7 @@ void	free_game(t_game *game)
 
 int	exit_game(t_game *game, int exit_code)
 {
-    free_game(game);
+	free_game(game);
 	if (game->mlx.mlx_ptr)
 	{
 		mlx_destroy_display(game->mlx.mlx_ptr);

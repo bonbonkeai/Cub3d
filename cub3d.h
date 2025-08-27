@@ -212,6 +212,20 @@ typedef struct s_crosshair_params
 	int	alpha;
 }	t_crosshair_params;
 
+// typedef struct s_line
+// {
+// 	int	x0;
+// 	int	y0;
+// 	int x1;
+// 	int y1;
+// 	double 	dx;
+// 	double 	dy;
+// 	double 	sx;
+// 	double	sy;
+// 	int	steps;
+// 	int color;
+// }				t_line;
+
 /*PARSER*/
 int		is_map_line(const char *line);
 int		get_map_width(char **map);
@@ -241,7 +255,7 @@ int		init_keys(t_keys *keys);
 int		init_mlx(t_mlx *mlx, int width, int height);
 void	free_mlx(t_mlx *mlx);
 int		init_texture_img(void *mlx_ptr, t_img *img, const char *path);
-int    init_texture_defaults(t_texture *tex);
+int    	init_texture_defaults(t_texture *tex);
 int		init_textures(t_texture *tex, void *mlx_ptr);
 void	free_textures(t_texture *tex, void *mlx_ptr);
 

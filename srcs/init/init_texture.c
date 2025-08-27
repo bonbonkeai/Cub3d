@@ -23,7 +23,8 @@ static void init_texture_data(t_texture *tex)
     tex->ea.data = NULL;
     // 临时使用纯色代替纹理
 	// 设置地板和天花板颜色
-	tex->floor_color = 0x404040;
+	// tex->floor_color = 0x404040;
+    tex->floor_color = 0x6B8E23;
 	tex->ceiling_color = 0x87CEEB;
 	tex->floor_r = 64;
 	tex->floor_g = 64;

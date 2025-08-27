@@ -167,6 +167,18 @@
 // 	}
 // }
 
+void	put_px(t_img *img, int x, int y, int color)
+{
+	char	*dst;
+
+	if (!img || !img->data)
+		return;
+	if (x < 0 || y < 0 || x >= img->width || y >= img->height)
+		return;
+	dst = img->data + (y * img->size_line + x * (img->bpp / 8));
+	*(int *)dst = color;
+}
+
 // 渲染单条射线
 void	render_ray(t_game *game, int x)
 {
