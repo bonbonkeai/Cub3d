@@ -58,7 +58,11 @@ int	parse_file(const char *filepath, t_game *game)
 
 int	parse_config(char *line, t_parse *parser)
 {
-	
+	if (is_texture(line))
+		return (parse_texture(line, parser));
+	else if (is_color(line))
+		return (parse_color(line, parser));
+	return (0);
 }
 
 // int main(void) // TESTING PARSING
