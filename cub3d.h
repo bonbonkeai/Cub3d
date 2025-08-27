@@ -61,6 +61,12 @@
 # define MM_BORDER  0x202024
 # define MM_ARROW   0xFFAA00
 
+// # define MM_WALL    0xD2691E
+// # define MM_FLOOR   0xFFCC99
+// # define MM_PLAYER  0xFF4040
+// # define MM_BORDER  0x993300
+// # define MM_ARROW   0xFFAA00
+
 # define PARSE_GOT_ALL(p) \
 	((p)->got_no && (p)->got_so && (p)->got_we && \
 	 (p)->got_ea && (p)->got_f  && (p)->got_c)
