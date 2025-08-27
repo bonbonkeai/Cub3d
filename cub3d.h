@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:32:23 by jdu               #+#    #+#             */
-/*   Updated: 2025/08/27 14:32:21 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/28 00:45:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include "./mlx_linux/mlx.h"
 # include <stdio.h>
+# include <string.h>
 
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
@@ -343,6 +344,6 @@ void	draw_floor(t_game *game, int x, int y);
 int		apply_side_shading(int color, int side);
 
 /*MAIN*/
-int		main(int argc, char **argv);
+// int		main(int argc, char **argv);
 
 #endif

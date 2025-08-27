@@ -1,16 +1,16 @@
-* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 10:36:15 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/26 16:37:00 by jdu              ###   ########.fr       */
+/*   Updated: 2025/08/28 00:48:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../../cub3d.h"
 
 /*MAIN FUNCTION FOR THE PARSING*/
 
@@ -34,7 +34,7 @@ int	parse_file(const char *filepath, t_game *game)
 		{
 			if (is_texture(line) || is_color(line)) // if correct texture and color
 			{
-				if (!parse_config(line, &parser)) // parse config
+				if (!parse_config(line, &parser)) // parse config (color and texture)
 					return (ft_free(&parser, fd)); // if not correct free everything
 			}
 			else if (is_map_line(line)) // if correct
@@ -56,13 +56,43 @@ int	parse_file(const char *filepath, t_game *game)
 	return (1);
 }
 
-int	parse_config(char *line, t_parse *parser)
+int	parse_config(char *line, t_parse *parser) 
 {
 	if (is_texture(line))
 		return (parse_texture(line, parser));
 	else if (is_color(line))
 		return (parse_color(line, parser));
 	return (0);
+}
+
+int	parse_rgb_values(const char *rgb_str, int *r, int *g, int *b) /*check if we have a valid values for colors*/
+{
+	char	**split;
+	int		i;
+
+	split = ft_split(rgb_str, ',');
+	if (!split)
+		return (0);
+	i = 0;
+	while (split[i])
+		i++;
+	if (i != 3)
+	{
+		ft_free_array(split);
+		return (0);
+	}
+	*r = ft_atoi(split[0]);
+	*g = ft_atoi(split[1]);
+	*b = ft_atoi(split[2]);
+	ft_free_array(split);
+	if (*r < 0 || *r > 255 || *g < 0 || *g > 255 || *b < 0 || *b > 255)
+		return (0);
+	return (1);
+}
+
+int	parse_color(char *line, t_parse *parser)
+{
+	
 }
 
 // int main(void) // TESTING PARSING

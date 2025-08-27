@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../../cub3d.h"
 
 char	*trim_whitespace(char *str) /*delete all the whitespaces at the begining and the end*/
 {
