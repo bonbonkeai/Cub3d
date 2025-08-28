@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 10:36:15 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/28 00:48:35 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/28 13:21:54 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,45 @@ int	parse_rgb_values(const char *rgb_str, int *r, int *g, int *b) /*check if we 
 	return (1);
 }
 
-int	parse_color(char *line, t_parse *parser)
+int	parse_color(char *line, t_parse *parser) /*parse color, check if we have only one F and C, then save the data to floor_color and ceiling_color*/
+{
+	char	*rgb_str;
+	int		r;
+	int		g;
+	int		b;
+	
+	if (ft_strncmp(line, "F ", 2) == 0)
+	{
+		if (parser->got_f)
+			return (0);
+		rgb_str = trim_whitespace(line + 2);
+		if (!parse_rgb_values(rgb_str, &r, &g, &b))
+			return (free(rgb_str), 0);
+		parser->textures->floor_r = r;
+		parser->textures->floor_r = g;
+		parser->textures->floor_r = b;
+		parser->textures->floor_color = (r << 16) | (g << 8) | b; // bits 16 - 23 = red ; 8 - 15 = green ; 0 - 7 = blue
+		parser->got_f = 1;
+		free(rgb_str);
+	}
+	else if (ft_strncmp(line, "C ", 2) == 0)
+	{
+		if (parser->got_c)
+			return (0);
+		rgb_str = trim_whitespace(line + 2);
+		if (!parse_rgb_values(rgb_str, &r, &g, &b))
+			return (free(rgb_str), 0);
+		parser->textures->ceiling_r = r;
+		parser->textures->ceiling_r = g;
+		parser->textures->ceiling_r = b;
+		parser->textures->ceiling_color = (r << 16) | (g << 8) | b;
+		parser->got_c = 1;
+		free(rgb_str);
+	}
+	return (1);
+}
+
+int	parse_texture(char *line, t_parse *parser)
 {
 	
 }
