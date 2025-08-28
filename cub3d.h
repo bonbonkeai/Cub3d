@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:32:23 by jdu               #+#    #+#             */
-/*   Updated: 2025/08/28 13:22:05 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/28 15:25:14 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,7 @@ int		is_color(const char *line);
 int		error_msg(const char *msg);
 int		parse_rgb_values(const char *rgb_str, int *r, int *g, int *b);
 int		parse_color(char *line, t_parse *parser);
+int		parse_texture(char *line, t_parse *parser);
 
 /*INIT && FREE*/
 // int		init_game(t_game *game);
