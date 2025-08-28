@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 10:36:15 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/28 13:21:54 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/28 15:13:45 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,43 @@ int	parse_color(char *line, t_parse *parser) /*parse color, check if we have onl
 	return (1);
 }
 
-int	parse_texture(char *line, t_parse *parser)
+int	parse_texture(char *line, t_parse *parser) /*parse texture, check if all the path only exist once and save all the data in the structure*/
 {
+	char	*path;
 	
+	if (ft_strncmp(line, "NO ", 3) == 0)
+	{
+		if (parser->got_no)
+			return (0);
+		path = trim_whitespace(line + 3);
+		parser->textures->no_path = path;
+		parser->got_no = 1;
+	}
+	else if (ft_strncmp(line, "SO ", 3) == 0)
+	{
+		if (parser->got_so)
+			return (0);
+		path = trim_whitespace(line + 3);
+		parser->textures->so_path = path;
+		parser->got_so = 1;
+	}
+	else if (ft_strncmp(line, "WE ", 3) == 0)
+	{
+		if (parser->got_we)
+			return (0);
+		path = trim_whitespace(line + 3);
+		parser->textures->we_path = path;
+		parser->got_we = 1;
+	}
+	else if (ft_strncmp(line, "EA ", 3) == 0)
+	{
+		if (parser->got_ea)
+			return (0);
+		path = trim_whitespace(line + 3);
+		parser->textures->ea_path = path;
+		parser->got_ea = 1;
+	}
+	return (1);
 }
 
 // int main(void) // TESTING PARSING
