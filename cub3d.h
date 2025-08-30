@@ -25,8 +25,8 @@
 # include <string.h>
 # include <time.h>
 
-# define WIN_WIDTH 800
-# define WIN_HEIGHT 600
+# define WIN_WIDTH 1000
+# define WIN_HEIGHT 800
 
 /*ORIENTATION*/
 # define NORTH 1
@@ -55,8 +55,8 @@
 # define EVENT_KEY_RELEASE  3
 # define EVENT_EXIT         17
 
-# define MOVE_SPEED 0.005
-# define ROTATE_SPEED 0.003
+# define MOVE_SPEED 0.006
+# define ROTATE_SPEED 0.004
 
 /*MINIMAP*/
 // # define MM_WALL    0x30303A
