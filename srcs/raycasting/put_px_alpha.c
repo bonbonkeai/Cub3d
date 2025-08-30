@@ -12,44 +12,41 @@
 
 #include "../../cub3d.h"
 
-// 检查坐标是否在图像范围内
-int	is_valid_coords(t_img *img, int x, int y)
+// 21d. 执行颜色混合
+void perform_color_blending(int *fg_colors, int *bg_colors, int alpha)
 {
-	if (!img || !img->data)
-		return (0);
-	if (x < 0 || y < 0 || x >= img->width || y >= img->height)
-		return (0);
-	return (1);
+    fg_colors[0] = blend_channel(fg_colors[0], bg_colors[0], alpha);
+    fg_colors[1] = blend_channel(fg_colors[1], bg_colors[1], alpha);
+    fg_colors[2] = blend_channel(fg_colors[2], bg_colors[2], alpha);
 }
 
-// 提取颜色的RGB分量
-void	extract_color_rgb(int color, int *r, int *g, int *b)
+// 21e. 组合最终颜色
+unsigned int combine_final_color(int *colors)
 {
-	*r = (color >> 16) & 0xFF;
-	*g = (color >> 8) & 0xFF;
-	*b = color & 0xFF;
+    return ((colors[2] << 16) | (colors[1] << 8) | colors[0]);
 }
 
-// 提取背景色的RGB分量
-void	extract_bg_rgb(unsigned int bg_color, int *bg_r, 
-					int *bg_g, int *bg_b)
+// 21f. 写入像素到目标地址
+void write_pixel_to_buffer(char *dst, unsigned int final_color)
 {
-	*bg_r = (bg_color >> 0) & 0xFF;
-	*bg_g = (bg_color >> 8) & 0xFF;
-	*bg_b = (bg_color >> 16) & 0xFF;
+    *(unsigned int *)dst = final_color;
 }
 
-// 执行alpha混合计算
-void	blend_colors(int r, int g, int b, int bg_r, int bg_g, int bg_b,
-					int alpha, int *final_r, int *final_g, int *final_b)
+void put_px_alpha(t_img *img, t_pixel_params params)
 {
-	*final_r = (r * alpha + bg_r * (255 - alpha)) / 255;
-	*final_g = (g * alpha + bg_g * (255 - alpha)) / 255;
-	*final_b = (b * alpha + bg_b * (255 - alpha)) / 255;
-}
-
-// 组合RGB为最终颜色
-unsigned int	combine_rgb(int final_r, int final_g, int final_b)
-{
-	return ((final_b << 16) | (final_g << 8) | final_r);
+    char *dst;
+    unsigned int bg_color;
+    unsigned int final_color;
+    int fg_colors[3];
+    int bg_colors[3];
+    
+    if (!validate_image_bounds(img, params.x, params.y))
+        return ;
+    dst = get_pixel_address(img, params.x, params.y);
+    bg_color = *(unsigned int *)dst;
+    extract_colors(params.color, &fg_colors[0], &fg_colors[1], &fg_colors[2]);
+    extract_bg_colors(bg_color, bg_colors);
+    perform_color_blending(fg_colors, bg_colors, params.alpha);
+    final_color = combine_final_color(fg_colors);
+    write_pixel_to_buffer(dst, final_color);
 }

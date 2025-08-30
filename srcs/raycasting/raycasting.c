@@ -172,66 +172,82 @@ void	put_px(t_img *img, int x, int y, int color)
 	char	*dst;
 
 	if (!img || !img->data)
-		return;
+		return ;
 	if (x < 0 || y < 0 || x >= img->width || y >= img->height)
-		return;
+		return ;
 	dst = img->data + (y * img->size_line + x * (img->bpp / 8));
 	*(int *)dst = color;
 }
 
-// 渲染单条射线
-void	render_ray(t_game *game, int x)
+// 18. 主raycasting函数
+void cast_rays(t_game *game)
 {
-	t_ray_data			ray;
-	t_draw_data			draw;
-	t_wall_draw_params	wall_params;
-	double				camera_x;
-	double				perp_wall_dist;
-
-	camera_x = 2 * x / (double)game->win_width - 1;
-	init_ray_data(game, camera_x, &ray);
-	init_step_x(ray.ray_dir_x, game->player.x, ray.map_x, &ray);
-	init_step_y(ray.ray_dir_y, game->player.y, ray.map_y, &ray);
-	perform_dda(game, &ray);
-	perp_wall_dist = calculate_perp_wall_dist(ray.ray_dir_x, ray.ray_dir_y,
-		game, &ray);
-	calculate_draw_params(game, perp_wall_dist, &draw);
-	setup_wall_drawing(game, &ray, &draw, &wall_params, x, perp_wall_dist);
-	draw_ceiling(game, x, draw.draw_start);
-	draw_wall(game, &wall_params);
-	draw_floor(game, x, wall_params.y);
-}
-
-// 设置墙面绘制参数
-void	setup_wall_drawing(t_game *game, t_ray_data *ray, t_draw_data *draw,
-					t_wall_draw_params *params, int x, double perp_wall_dist)
-{
-	double	wall_x;
-
-	params->tex = select_texture(game, ray->ray_dir_x, ray->ray_dir_y,
-		ray->side);
-	wall_x = calculate_wall_x(ray->ray_dir_x, ray->ray_dir_y, game, ray,
-		perp_wall_dist);
-	params->tex_x = calculate_tex_x(wall_x, params->tex, ray->ray_dir_x,
-		ray->ray_dir_y, ray->side);
-	params->step = 1.0 * params->tex->height / draw->line_height;
-	params->tex_pos = (draw->draw_start - game->win_height / 2
-		+ draw->line_height / 2) * params->step;
-	params->x = x;
-	params->y = draw->draw_start;
-	params->draw_end = draw->draw_end;
-	params->side = ray->side;
-}
-
-// 主函数：投射所有射线
-void	cast_rays(t_game *game)
-{
-	int	x;
-
+	int x;
+	
 	x = 0;
 	while (x < game->win_width)
 	{
-		render_ray(game, x);
+		init_ray_for_column(game, x);
+		calculate_delta_distances(game);
+		calculate_step_x(game);
+		calculate_step_y(game);
+		perform_dda(game);
+		calculate_perp_wall_dist(game);
+		calculate_draw_range(game);
+		select_wall_texture(game);
+		calculate_wall_hit(game);
+		calculate_tex_x(game);
+		calculate_texture_step(game);
+		draw_column(game, x);
 		x++;
 	}
+}
+
+// 28. 初始化游戏结构体
+void init_game_structs(t_game *game)
+{
+	game->crosshair.size = 3;
+	game->crosshair.line_len = 15;
+	game->crosshair.gap = 8;
+	game->crosshair.color = 0x00FF00;
+	game->crosshair.alpha = 200;
+	game->temp_perp_dist = 0.0;
+	game->temp_wall_x = 0.0;
+}
+
+void	init_ray(t_game *game)
+{
+	game->ray.ray_dir_x = 0.0;
+	game->ray.ray_dir_y = 0.0;
+	game->ray.map_x = 0;
+	game->ray.map_y = 0;
+	game->ray.delta_dist_x = 0.0;
+	game->ray.delta_dist_y = 0.0;
+	game->ray.side_dist_x = 0.0;
+	game->ray.side_dist_y = 0.0;
+	game->ray.step_x = 0;
+	game->ray.step_y = 0;
+	game->ray.side = 0;
+}
+
+void init_game_structures(t_game *game)
+{
+	init_game_structs(game);
+	init_ray(game);
+	// 初始化绘制参数结构体
+	game->draw.line_height = 0;
+	game->draw.draw_start = 0;
+	game->draw.draw_end = 0;
+	// 初始化墙面参数结构体
+	game->wall_params.tex = NULL;
+	game->wall_params.tex_x = 0;
+	game->wall_params.step = 0.0;
+	game->wall_params.tex_pos = 0.0;
+	//初始化minimap
+	game->minimap.tile_size = 0;
+    game->minimap.offset_x = 8;
+    game->minimap.offset_y = 8;
+    game->minimap.total_width = 0;
+    game->minimap.total_height = 0;
+    game->minimap.player_size = 0;
 }

@@ -17,22 +17,28 @@ SRCS = \
 	srcs/init/init_map.c \
 	srcs/main/cub3d.c \
 	srcs/raycasting/raycasting.c \
-	srcs/raycasting/utils.c \
-	srcs/raycasting/calculate.c \
+	srcs/raycasting/color_utils.c \
+	srcs/raycasting/calculate_ray.c \
+	srcs/raycasting/calculate_wall.c \
 	srcs/raycasting/dda.c \
 	srcs/raycasting/draw.c \
-	srcs/raycasting/init_step_ray.c \
+	srcs/raycasting/draw_utils.c \
 	srcs/raycasting/draw_crosshair.c \
 	srcs/raycasting/put_px_alpha.c \
 	srcs/setup/control.c \
 	srcs/setup/hook.c \
 	srcs/setup/key.c \
-	srcs/setup/minimap.c \
-	srcs/setup/minimap_utils.c \
-	srcs/setup/minimap_utils2.c \
-	srcs/setup/draw_line.c \
 	srcs/setup/mouse.c \
+	srcs/minimap/minimap.c \
+	srcs/minimap/minimap_utils.c \
+	srcs/minimap/draw_rect.c \
+	srcs/minimap/draw_tile.c \
+	srcs/minimap/draw_border.c \
+	srcs/minimap/draw_line.c \
+	srcs/minimap/calculate_size.c \
 	srcs/parser/parser_utils.c \
+	srcs/selfie_stick/selfie_system.c \
+	srcs/selfie_stick/selfie_utils.c \
 # 	srcs/parser/parser.c \
 	srcs/init/init_ray.c \
 

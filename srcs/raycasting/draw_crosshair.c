@@ -12,79 +12,92 @@
 
 #include "../../cub3d.h"
 
-// 绘制准星中心圆形
-void	draw_crosshair_center(t_img *img, int cx, int cy, 
-						t_crosshair_params *params)
+// 23. 绘制准星上线
+void draw_crosshair_up(t_game *game)
 {
-	int	dy;
-	int	dx;
-
-	dy = -params->size;
-	while (dy <= params->size)
-	{
-		dx = -params->size;
-		while (dx <= params->size)
-		{
-			if (dx * dx + dy * dy <= params->size * params->size)
-				put_px_alpha(img, cx + dx, cy + dy, params->color, params->alpha);
-			dx++;
-		}
-		dy++;
-	}
+    int cx;
+    int cy;
+    int i;
+    t_pixel_params pixel;
+    
+    get_screen_center(game, &cx, &cy);
+    init_crosshair_pixel(game, &pixel);
+    pixel.x = cx;
+    i = 0;
+    while (i < game->crosshair.line_len)
+    {
+        pixel.y = cy - game->crosshair.gap - i;
+        put_px_alpha(&game->mlx.img, pixel);
+        i++;
+    }
 }
 
-// 绘制准星上方线条
-void	draw_crosshair_up(t_img *img, int cx, int cy,
-					t_crosshair_params *params)
+// 24. 绘制准星下线
+void draw_crosshair_down(t_game *game)
 {
-	int	i;
-
-	i = 0;
-	while (i < params->line_len)
-	{
-		put_px_alpha(img, cx, cy - params->gap - i, params->color, params->alpha);
-		i++;
-	}
+    int cx;
+    int cy;
+    int i;
+    t_pixel_params pixel;
+    
+    get_screen_center(game, &cx, &cy);
+    init_crosshair_pixel(game, &pixel);
+    pixel.x = cx;
+    i = 0;
+    while (i < game->crosshair.line_len)
+    {
+        pixel.y = cy + game->crosshair.gap + i;
+        put_px_alpha(&game->mlx.img, pixel);
+        i++;
+    }
 }
 
-// 绘制准星下方线条
-void	draw_crosshair_down(t_img *img, int cx, int cy,
-					t_crosshair_params *params)
+// 25. 绘制准星左线
+void draw_crosshair_left(t_game *game)
 {
-	int	i;
-
-	i = 0;
-	while (i < params->line_len)
-	{
-		put_px_alpha(img, cx, cy + params->gap + i, params->color, params->alpha);
-		i++;
-	}
+    int cx;
+    int cy;
+    int i;
+    t_pixel_params pixel;
+    
+    get_screen_center(game, &cx, &cy);
+    init_crosshair_pixel(game, &pixel);
+    pixel.y = cy;
+    i = 0;
+    while (i < game->crosshair.line_len)
+    {
+        pixel.x = cx - game->crosshair.gap - i;
+        put_px_alpha(&game->mlx.img, pixel);
+        i++;
+    }
 }
 
-// 绘制准星左侧线条
-void	draw_crosshair_left(t_img *img, int cx, int cy,
-					t_crosshair_params *params)
+// 26. 绘制准星右线
+void draw_crosshair_right(t_game *game)
 {
-	int	i;
-
-	i = 0;
-	while (i < params->line_len)
-	{
-		put_px_alpha(img, cx - params->gap - i, cy, params->color, params->alpha);
-		i++;
-	}
+    int cx;
+    int cy;
+    int i;
+    t_pixel_params pixel;
+    
+    get_screen_center(game, &cx, &cy);
+    init_crosshair_pixel(game, &pixel);
+    pixel.y = cy;
+    i = 0;
+    while (i < game->crosshair.line_len)
+    {
+        pixel.x = cx + game->crosshair.gap + i;
+        put_px_alpha(&game->mlx.img, pixel);
+        i++;
+    }
 }
 
-// 绘制准星右侧线条
-void	draw_crosshair_right(t_img *img, int cx, int cy,
-					t_crosshair_params *params)
+// 27. 绘制准星主函数
+void draw_crosshair(t_game *game)
 {
-	int	i;
-
-	i = 0;
-	while (i < params->line_len)
-	{
-		put_px_alpha(img, cx + params->gap + i, cy, params->color, params->alpha);
-		i++;
-	}
+    draw_crosshair_center(game);
+    draw_crosshair_up(game);
+    draw_crosshair_down(game);
+    draw_crosshair_left(game);
+    draw_crosshair_right(game);
 }

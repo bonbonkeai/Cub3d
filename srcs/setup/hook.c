@@ -75,9 +75,10 @@ int	render_game(t_game *game)
 	if (game->map)
 		draw_minimap(game);
 	// 5. 画准星
-	// draw_crosshair(game);
-	draw_crosshair(game, 3, 10, 5, 0xFF0000, 255);
+	draw_crosshair(game);
 	// 6. 一次性推送画面到窗口
+	draw_static_selfie_stick(game);
+	// 7. 自拍杆
 	mlx_put_image_to_window(game->mlx.mlx_ptr,
 							game->mlx.win_ptr,
 							game->mlx.img.img_ptr,

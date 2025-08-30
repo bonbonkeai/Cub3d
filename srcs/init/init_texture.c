@@ -21,9 +21,6 @@ static void init_texture_data(t_texture *tex)
     tex->so.data = NULL;
     tex->we.data = NULL;
     tex->ea.data = NULL;
-    // 临时使用纯色代替纹理
-	// 设置地板和天花板颜色
-	// tex->floor_color = 0x404040;
     tex->floor_color = 0x6B8E23;
 	tex->ceiling_color = 0x87CEEB;
 	tex->floor_r = 64;
@@ -97,7 +94,6 @@ void    free_textures(t_texture *tex, void *mlx_ptr)
     tex->so_path = NULL;
     tex->we_path = NULL;
     tex->ea_path = NULL;
-
     // free_img(mlx_ptr, &tex->floor_img);
     // free_img(mlx_ptr, &tex->ceiling_img);
     // if (tex->floor_path)
