@@ -65,8 +65,14 @@
 // # define MM_BORDER  0x202024
 // # define MM_ARROW   0xFFAA00
 
-#define MM_WALL    0xCD853F  // 秘鲁色（浅棕橙）
-#define MM_FLOOR   0x556B2F
+// #define MM_WALL    0xCD853F  // 秘鲁色（浅棕橙）
+// #define MM_FLOOR   0x556B2F
+// #define MM_PLAYER  0xFF4500  // 橙红色
+// #define MM_BORDER  0x000000  // 纯黑边框
+// #define MM_ARROW   0xFFFF00  // 纯黄箭头
+
+#define MM_WALL    0xEA955D  // 秘鲁色（浅棕橙）
+#define MM_FLOOR   0x7BA72E
 #define MM_PLAYER  0xFF4500  // 橙红色
 #define MM_BORDER  0x000000  // 纯黑边框
 #define MM_ARROW   0xFFFF00  // 纯黄箭头
