@@ -40,7 +40,6 @@ SRCS = \
 	srcs/selfie_stick/selfie_system.c \
 	srcs/selfie_stick/selfie_utils.c \
 # 	srcs/parser/parser.c \
-	srcs/init/init_ray.c \
 
 OBJS = $(SRCS:.c=.o)
 

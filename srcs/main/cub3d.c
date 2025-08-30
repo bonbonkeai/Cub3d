@@ -6,7 +6,7 @@
 /*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:34:08 by jdu               #+#    #+#             */
-/*   Updated: 2025/08/26 16:34:09 by jdu              ###   ########.fr       */
+/*   Updated: 2025/08/30 15:39:45 by jdu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ int	main(int argc, char **argv)
 		ft_fprintf(2, "Usage: ./cub3D map.cub\n");
 		return (1);
 	}
-    // if (!parse_cub_file(argv[1], &game))
-    // {    
+	//if (!parse_cub_file(argv[1], &game))
+	//{    
 	// 	free_game(&game);
 	// 	return (1);
 	// }
-    // if (!init_game(&game))
-    // {
+	// if (!init_game(&game))
+	// {
 	// 	free_game(&game);
 	// 	return (1);
 	// }
 	if (!init_game(&game, argv[1]))
-    {
+	{
 		free_game(&game);
 		return (1);
 	}

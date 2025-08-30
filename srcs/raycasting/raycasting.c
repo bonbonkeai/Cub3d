@@ -6,7 +6,7 @@
 /*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:35:11 by jdu               #+#    #+#             */
-/*   Updated: 2025/08/26 16:35:14 by jdu              ###   ########.fr       */
+/*   Updated: 2025/08/30 14:49:08 by jdu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@
 void	put_px(t_img *img, int x, int y, int color)
 {
 	char	*dst;
-
+	
 	if (!img || !img->data)
 		return ;
 	if (x < 0 || y < 0 || x >= img->width || y >= img->height)
@@ -180,9 +180,9 @@ void	put_px(t_img *img, int x, int y, int color)
 }
 
 // 18. 主raycasting函数
-void cast_rays(t_game *game)
+void	cast_rays(t_game *game)
 {
-	int x;
+	int	x;
 	
 	x = 0;
 	while (x < game->win_width)
@@ -204,7 +204,7 @@ void cast_rays(t_game *game)
 }
 
 // 28. 初始化游戏结构体
-void init_game_structs(t_game *game)
+void	init_game_structs(t_game *game)
 {
 	game->crosshair.size = 3;
 	game->crosshair.line_len = 15;
@@ -230,24 +230,24 @@ void	init_ray(t_game *game)
 	game->ray.side = 0;
 }
 
-void init_game_structures(t_game *game)
+void	init_game_structures(t_game *game)
 {
 	init_game_structs(game);
 	init_ray(game);
-	// 初始化绘制参数结构体
+	/*初始化绘制参数结构体*/
 	game->draw.line_height = 0;
 	game->draw.draw_start = 0;
 	game->draw.draw_end = 0;
-	// 初始化墙面参数结构体
+	/*初始化墙面参数结构体*/
 	game->wall_params.tex = NULL;
 	game->wall_params.tex_x = 0;
 	game->wall_params.step = 0.0;
 	game->wall_params.tex_pos = 0.0;
-	//初始化minimap
+	/*初始化minimap*/
 	game->minimap.tile_size = 0;
-    game->minimap.offset_x = 8;
-    game->minimap.offset_y = 8;
-    game->minimap.total_width = 0;
-    game->minimap.total_height = 0;
-    game->minimap.player_size = 0;
+	game->minimap.offset_x = 8;
+	game->minimap.offset_y = 8;
+	game->minimap.total_width = 0;
+	game->minimap.total_height = 0;
+	game->minimap.player_size = 0;
 }

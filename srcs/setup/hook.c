@@ -6,15 +6,15 @@
 /*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:35:44 by jdu               #+#    #+#             */
-/*   Updated: 2025/08/26 16:35:46 by jdu              ###   ########.fr       */
+/*   Updated: 2025/08/30 14:58:04 by jdu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-void set_up_game(t_game *game)
-{
-   	// 键盘事件
+void	set_up_game(t_game *game)
+{	
+	// 键盘事件
 	mlx_hook(game->mlx.win_ptr, EVENT_KEY_PRESS, 1L << 0, key_press, game);
 	mlx_hook(game->mlx.win_ptr, EVENT_KEY_RELEASE, 1L << 1, key_release, game);
 	// 鼠标移动事件
@@ -23,11 +23,10 @@ void set_up_game(t_game *game)
 	mlx_hook(game->mlx.win_ptr, EVENT_EXIT, 0, exit_button, game);
 	// 启动时隐藏鼠标 + 定位到中心
 	mlx_mouse_hide(game->mlx.mlx_ptr, game->mlx.win_ptr);
-	mlx_mouse_move(game->mlx.mlx_ptr, game->mlx.win_ptr,
-		game->win_width / 2, game->win_height / 2);
-    // 临时注释掉渲染相关的调用
-    mlx_loop_hook(game->mlx.mlx_ptr, render_game, game);
-    render_game(game);
+	mlx_mouse_move(game->mlx.mlx_ptr, game->mlx.win_ptr, \
+			game->win_width / 2, game->win_height / 2);
+	mlx_loop_hook(game->mlx.mlx_ptr, render_game, game);
+	render_game(game);
 }
 
 // int	set_up_game(t_game *game)
@@ -79,9 +78,19 @@ int	render_game(t_game *game)
 	// 6. 一次性推送画面到窗口
 	draw_static_selfie_stick(game);
 	// 7. 自拍杆
-	mlx_put_image_to_window(game->mlx.mlx_ptr,
-							game->mlx.win_ptr,
-							game->mlx.img.img_ptr,
-							0, 0);
+	mlx_put_image_to_window(game->mlx.mlx_ptr, game->mlx.win_ptr, \
+			game->mlx.img.img_ptr, 0, 0);
 	return (0);
+}
+
+int	exit_game(t_game *game, int exit_code)
+{
+	free_game(game);
+	if (game->mlx.mlx_ptr)
+	{
+		mlx_destroy_display(game->mlx.mlx_ptr);
+		free(game->mlx.mlx_ptr);
+		game->mlx.mlx_ptr = NULL;
+	}
+	exit(exit_code);
 }

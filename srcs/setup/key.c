@@ -6,11 +6,24 @@
 /*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:35:50 by jdu               #+#    #+#             */
-/*   Updated: 2025/08/26 16:35:52 by jdu              ###   ########.fr       */
+/*   Updated: 2025/08/30 14:59:12 by jdu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
+
+static void	key_mouse(t_game *game)
+{
+	game->keys.mouse_control = !game->keys.mouse_control;
+	if (game->keys.mouse_control)
+	{
+		mlx_mouse_hide(game->mlx.mlx_ptr, game->mlx.win_ptr);
+		mlx_mouse_move(game->mlx.mlx_ptr, game->mlx.win_ptr, \
+				game->win_width / 2, game->win_height / 2);
+	}
+	else
+		mlx_mouse_show(game->mlx.mlx_ptr, game->mlx.win_ptr);
+}
 
 int	key_press(int keycode, t_game *game)
 {
@@ -28,6 +41,8 @@ int	key_press(int keycode, t_game *game)
 		game->keys.right = 1;
 	else if (keycode == ESC)
 		exit_game(game, 0);
+	else if (keycode == TAB)
+		key_mouse(game);
 	return (0);
 }
 

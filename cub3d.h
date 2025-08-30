@@ -45,6 +45,7 @@
 # define LEFT_INT 128
 # define RIGHT 65363
 # define RIGHT_INT 129
+# define TAB 65289
 
 /*TEXTURE*/
 # define TEXTURE_SIZE 256
@@ -58,17 +59,17 @@
 # define ROTATE_SPEED 0.003
 
 /*MINIMAP*/
-# define MM_WALL    0x30303A
-# define MM_FLOOR   0x70707A
-# define MM_PLAYER  0xFF4040
-# define MM_BORDER  0x202024
-# define MM_ARROW   0xFFAA00
+// # define MM_WALL    0x30303A
+// # define MM_FLOOR   0x70707A
+// # define MM_PLAYER  0xFF4040
+// # define MM_BORDER  0x202024
+// # define MM_ARROW   0xFFAA00
 
-// #define MM_WALL    0xCD853F  // 秘鲁色（浅棕橙）
-// #define MM_FLOOR   0x556B2F
-// #define MM_PLAYER  0xFF4500  // 橙红色
-// #define MM_BORDER  0x000000  // 纯黑边框
-// #define MM_ARROW   0xFFFF00  // 纯黄箭头
+#define MM_WALL    0xCD853F  // 秘鲁色（浅棕橙）
+#define MM_FLOOR   0x556B2F
+#define MM_PLAYER  0xFF4500  // 橙红色
+#define MM_BORDER  0x000000  // 纯黑边框
+#define MM_ARROW   0xFFFF00  // 纯黄箭头
 
 # define PARSE_GOT_ALL(p) \
 	((p)->got_no && (p)->got_so && (p)->got_we && \
@@ -140,6 +141,8 @@ typedef struct s_keys
 	int			left;
 	int			right;
 	int			esc;
+
+	int			mouse_control;
 }	t_keys;
 
 typedef struct s_mlx
@@ -386,6 +389,8 @@ void    calculate_player_screen_pos(t_game *game, int *px, int *py);
 void    draw_player_marker(t_game *game);
 void    draw_player_direction(t_game *game);
 void    draw_minimap(t_game *game);
+void	draw_wall_shadows(t_game *game);
+void	draw_tile_shadow(t_game *game, t_tile_pos pos, int shadow_offset);
 
 // /*RAYCASTING*/
 //像素绘制函数

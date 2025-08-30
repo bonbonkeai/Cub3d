@@ -6,7 +6,7 @@
 /*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:35:56 by jdu               #+#    #+#             */
-/*   Updated: 2025/08/26 16:35:58 by jdu              ###   ########.fr       */
+/*   Updated: 2025/08/30 15:22:24 by jdu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,59 +68,56 @@
 // ==================== 玩家位置绘制 ====================
 
 // 21. 计算玩家屏幕位置
-void calculate_player_screen_pos(t_game *game, int *px, int *py)
+void	calculate_player_screen_pos(t_game *game, int *px, int *py)
 {
-    *px = game->minimap.offset_x + 
-        (int)(game->player.x * (double)game->minimap.tile_size);
-    *py = game->minimap.offset_y + 
-        (int)(game->player.y * (double)game->minimap.tile_size);
+	*px = game->minimap.offset_x + (int)(game->player.x * \
+			(double)game->minimap.tile_size);
+	*py = game->minimap.offset_y + (int)(game->player.y * \
+			(double)game->minimap.tile_size);
 }
 
 // 22. 绘制玩家标记
-void draw_player_marker(t_game *game)
+void	draw_player_marker(t_game *game)
 {
-    t_rect_params player_rect;
-    int px;
-    int py;
-    
-    calculate_player_screen_pos(game, &px, &py);
-    player_rect.x = px - game->minimap.player_size / 2;
-    player_rect.y = py - game->minimap.player_size / 2;
-    player_rect.width = game->minimap.player_size;
-    player_rect.height = game->minimap.player_size;
-    player_rect.color = MM_PLAYER;
-    draw_rect(&game->mlx.img, player_rect);
+	t_rect_params	player_rect;
+	int				px;
+	int				py;
+
+	calculate_player_screen_pos(game, &px, &py);
+	player_rect.x = px - game->minimap.player_size / 2;
+	player_rect.y = py - game->minimap.player_size / 2;
+	player_rect.width = game->minimap.player_size;
+	player_rect.height = game->minimap.player_size;
+	player_rect.color = MM_PLAYER;
+	draw_rect(&game->mlx.img, player_rect);
 }
 
 // 23. 绘制玩家方向线
-void draw_player_direction(t_game *game)
+void	draw_player_direction(t_game *game)
 {
-    t_line_params dir_line;
-    int px;
-    int py;
-    int len;
-    
-    calculate_player_screen_pos(game, &px, &py);
-    len = game->minimap.tile_size * 2;
-    dir_line.x0 = px;
-    dir_line.y0 = py;
-    dir_line.x1 = px + (int)(game->player.dir_x * (double)len);
-    dir_line.y1 = py + (int)(game->player.dir_y * (double)len);
-    dir_line.color = MM_PLAYER;
-    draw_line(&game->mlx.img, dir_line);
+	t_line_params	dir_line;
+	int				px;
+	int				py;
+	int				len;
+
+	calculate_player_screen_pos(game, &px, &py);
+	len = game->minimap.tile_size * 2;
+	dir_line.x0 = px;
+	dir_line.y0 = py;
+	dir_line.x1 = px + (int)(game->player.dir_x * (double)len);
+	dir_line.y1 = py + (int)(game->player.dir_y * (double)len);
+	dir_line.color = MM_PLAYER;
+	draw_line(&game->mlx.img, dir_line);
 }
 
 // 24. 绘制完整minimap主函数
-void draw_minimap(t_game *game)
+void	draw_minimap(t_game *game)
 {
-    if (!game || !game->map || !game->mlx.img.data)
-        return ;
-    init_minimap_params(game);
-    draw_minimap_background(game);
-    draw_map_tiles(game);
-    draw_player_marker(game);
-    draw_player_direction(game);
+	if (!game || !game->map || !game->mlx.img.data)
+		return ;
+	init_minimap_params(game);
+	draw_minimap_background(game);
+	draw_map_tiles(game);
+	draw_player_marker(game);
+	draw_player_direction(game);
 }
-
-
-
