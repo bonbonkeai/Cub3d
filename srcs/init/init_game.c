@@ -91,8 +91,14 @@ void	free_game(t_game *game)
 	if (game->map)
 		free_map(game->map);
 	free_textures(&game->textures, game->mlx.mlx_ptr);
-	if (game->selfie_cam.selfie_texture && game->selfie_cam.selfie_texture->img_ptr)
-    	free_img(game->mlx.mlx_ptr, game->selfie_cam.selfie_texture);
+	// if (game->selfie_cam.selfie_texture && game->selfie_cam.selfie_texture->img_ptr)
+    // 	free_img(game->mlx.mlx_ptr, game->selfie_cam.selfie_texture);
+    if (game->selfie_cam.selfie_texture)
+    {
+        if (game->selfie_cam.selfie_texture->img_ptr)
+            mlx_destroy_image(game->mlx.mlx_ptr, game->selfie_cam.selfie_texture->img_ptr);
+        free(game->selfie_cam.selfie_texture);
+    }
 	free_mlx(&game->mlx);
 }
 
