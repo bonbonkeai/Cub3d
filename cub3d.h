@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:32:23 by jdu               #+#    #+#             */
-/*   Updated: 2025/08/28 00:45:26 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/31 16:57:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@
 # define EVENT_KEY_RELEASE  3
 # define EVENT_EXIT         17
 
-# define MOVE_SPEED 0.006
+# define MOVE_SPEED 0.016
 # define ROTATE_SPEED 0.004
 
 /*MINIMAP*/
@@ -324,11 +324,25 @@ int		error_msg(const char *msg);
 int		parse_rgb_values(const char *rgb_str, int *r, int *g, int *b);
 int		parse_color(char *line, t_parse *parser);
 int		parse_texture(char *line, t_parse *parser);
+int		is_file_accessible(const char *path);
+int		is_valid_texture_extension(const char *path);
+int	ft_free_cub(t_parse *parser, int fd);
+void	ft_free_array(char **arr);
+void	save_data(t_parse *parser, t_game *game);
+int	validate_and_process_map(t_parse *parser, t_game *game);
+int	count_players(char **map, int height, int width);
+int	validate_map_closed(char **map, int height, int width);
+int	char_valid(t_parse *parser);
+int	is_file_accessible(const char *path);
+int	is_valid_texture_extension(const char *path);
+int	parse_file(const char *filepath, t_game *game);
+int	parse_config(char *line, t_parse *parser);
+
 
 
 /*INIT && FREE*/
-// int		init_game(t_game *game);
-int		init_game(t_game *game, const char *map_path);
+int		init_game(t_game *game);
+// int		init_game(t_game *game, const char *map_path);
 void	free_game(t_game *game);
 int		exit_game(t_game *game, int exit_code);
 int		init_img(void *mlx, t_img *img, int width, int height);

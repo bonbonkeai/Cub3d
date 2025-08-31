@@ -35,6 +35,8 @@ int	get_map_width(char **map)
 
 	i = 0;
 	max_width = 0;
+	if (!map)
+		return (0);
 	while (map[i])
 	{
 		len = ft_strlen(map[i]);
@@ -50,6 +52,8 @@ int	get_map_height(char **map)
 	int	i;
 
 	i = 0;
+	if (!map)
+		return (0);
 	while (map[i])
 		i++;
 	return (i);
@@ -62,10 +66,21 @@ int	normalize_map(t_game *game, char **raw_lines, int line_count)
 	char	*new_line;
 	int		len;
 
+	if (!raw_lines || line_count <= 0)
+        return (0);
 	max_width = get_map_width(raw_lines);
+	if (max_width <= 0)
+        return (0);
 	i = 0;
 	while (i < line_count)
 	{
+		if (!raw_lines[i])
+        {
+            while (--i >= 0)
+                free(raw_lines[i]);
+            free(raw_lines);
+            return (0);
+        }
 		new_line = malloc(max_width + 1);
 		if (!new_line)
 		{

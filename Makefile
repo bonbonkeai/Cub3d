@@ -36,10 +36,16 @@ SRCS = \
 	srcs/minimap/draw_border.c \
 	srcs/minimap/draw_line.c \
 	srcs/minimap/calculate_size.c \
-	srcs/parser/parser_utils.c \
 	srcs/selfie_stick/selfie_system.c \
 	srcs/selfie_stick/selfie_utils.c \
-# 	srcs/parser/parser.c \
+	srcs/parser/parser.c \
+	srcs/parser/parser_valid_map.c \
+	srcs/parser/parser_valid_file.c \
+	srcs/parser/parser_textures.c \
+	srcs/parser/parser_string.c \
+	srcs/parser/parser_memory.c \
+	srcs/parser/parser_config.c \
+	srcs/parser/data_saver.c \
 
 OBJS = $(SRCS:.c=.o)
 

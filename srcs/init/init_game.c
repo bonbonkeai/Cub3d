@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdu <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:32:43 by jdu               #+#    #+#             */
-/*   Updated: 2025/08/30 14:15:26 by jdu              ###   ########.fr       */
+/*   Updated: 2025/08/31 14:46:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ static int	init_player_and_textures(t_game *game)
 {
 	if (!check_and_init_player(game))
 		return (ft_fprintf(2, ERR_PLAYER), 0);
-	if (!init_texture_defaults(&game->textures) || \
-		!init_textures(&game->textures, game->mlx.mlx_ptr))
+	if (!init_textures(&game->textures, game->mlx.mlx_ptr))
 		return (ft_fprintf(2, ERR_TEX), 0);
 	return (1);
 }
@@ -36,18 +35,12 @@ static int	init_selfie_and_keys(t_game *game)
 	return (1);
 }
 
-int	init_game(t_game *game, const char *map_path)
+int	init_game(t_game *game)
 {
 	game->win_width = WIN_WIDTH;
 	game->win_height = WIN_HEIGHT;
 	if (!init_mlx(&game->mlx, game->win_width, game->win_height))
 		return (ft_fprintf(2, ERR_MLX), 0);
-	if (!init_map(game, map_path))
-	{
-		ft_fprintf(2, "Error: Failed to load map from file '%s'\n", \
-			map_path);
-		return (0);
-	}
 	if (!init_player_and_textures(game))
 		return (0);
 	if (!init_selfie_and_keys(game))
