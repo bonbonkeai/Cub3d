@@ -46,7 +46,7 @@ int	parse_rgb_values(const char *rgb_str, int *r, int *g, int *b)
 	return (1);
 }
 
-int	parse_color(char *line, t_parse *parser)
+static int	parse_f(char *line, t_parse *parser)
 {
 	char	*rgb_str;
 	int		r;
@@ -67,7 +67,17 @@ int	parse_color(char *line, t_parse *parser)
 		parser->got_f = 1;
 		free(rgb_str);
 	}
-	else if (ft_strncmp(line, "C ", 2) == 0)
+	return (1);
+}
+
+static int	parse_c(char *line, t_parse *parser)
+{
+	char	*rgb_str;
+	int		r;
+	int		g;
+	int		b;
+
+	if (ft_strncmp(line, "C ", 2) == 0)
 	{
 		if (parser->got_c)
 			return (0);
@@ -81,5 +91,12 @@ int	parse_color(char *line, t_parse *parser)
 		parser->got_c = 1;
 		free(rgb_str);
 	}
+	return (1);
+}
+
+int	parse_color(char *line, t_parse *parser)
+{
+	parse_f(line, parser);
+	parse_c(line, parser);
 	return (1);
 }
