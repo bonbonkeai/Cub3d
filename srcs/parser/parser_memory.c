@@ -52,8 +52,8 @@ int	ft_free_cub(t_parse *parser, int fd)
 	}
 	if (parser->raw_lines)
 		free_raw_lines(parser->raw_lines, parser->raw_count);
-	if (fd >= 0)
-		close(fd);
+	// if (fd >= 0)
+	// 	close(fd);
 	return (0);
 }
 
