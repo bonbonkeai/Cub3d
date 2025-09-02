@@ -87,6 +87,8 @@ int	parse_file(const char *filepath, t_game *game)
 		return (ft_free_cub(&parser, fd));
 	save_data(&parser, game);
 	free(parser.textures);
+	if (parser.raw_lines)
+        free_raw_lines(parser.raw_lines, parser.raw_count);
 	close(fd);
 	return (1);
 }
