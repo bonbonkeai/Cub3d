@@ -17,7 +17,7 @@ static void	key_mouse(t_game *game)
 	game->keys.mouse_control = !game->keys.mouse_control;
 	if (game->keys.mouse_control)
 	{
-		mlx_mouse_hide(game->mlx.mlx_ptr, game->mlx.win_ptr);
+		// mlx_mouse_hide(game->mlx.mlx_ptr, game->mlx.win_ptr);
 		mlx_mouse_move(game->mlx.mlx_ptr, game->mlx.win_ptr, \
 				game->win_width / 2, game->win_height / 2);
 	}
