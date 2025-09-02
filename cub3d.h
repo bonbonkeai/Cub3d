@@ -124,7 +124,6 @@ typedef struct s_texture
 	char 		*so_path;
 	char 		*we_path;
 	char 		*ea_path;
-
 	int			floor_color;
 	int			ceiling_color;
 	int 		floor_r;
@@ -147,7 +146,6 @@ typedef struct s_keys
 	int			left;
 	int			right;
 	int			esc;
-
 	int			mouse_control;
 }	t_keys;
 
@@ -412,7 +410,7 @@ void    draw_minimap(t_game *game);
 void	draw_wall_shadows(t_game *game);
 void	draw_tile_shadow(t_game *game, t_tile_pos pos, int shadow_offset);
 
-// /*RAYCASTING*/
+/*RAYCASTING*/
 //像素绘制函数
 void    put_px(t_img *img, int x, int y, int color);
 void    put_px_alpha(t_img *img, t_pixel_params params);

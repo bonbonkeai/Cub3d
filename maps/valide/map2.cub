@@ -3,8 +3,8 @@ SO ./textures/mur/south.xpm
 WE ./textures/mur/west.xpm
 EA ./textures/mur/east.xpm
 
-F 150,150,150
-C 199,207,225
+F 107,142,35
+C 135,206,235
 111111111         11111111111
 100000001         10000000001
 10110000111111111110000010001

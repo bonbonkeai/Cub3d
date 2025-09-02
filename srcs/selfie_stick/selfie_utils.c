@@ -15,8 +15,8 @@
 // 1. 初始化自拍杆系统
 void	init_selfie_camera(t_game *game)
 {
-	game->selfie_cam.x_pos = (game->win_width / 2) - 100;
-	game->selfie_cam.y_pos = game->win_height - 240;
+	game->selfie_cam.x_pos = (game->win_width / 2) - 350;
+	game->selfie_cam.y_pos = game->win_height - 450;
 	game->selfie_cam.visible = 1;
 }
 

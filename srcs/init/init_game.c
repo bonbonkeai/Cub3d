@@ -18,6 +18,8 @@ static int	init_player_and_textures(t_game *game)
 		return (ft_fprintf(2, ERR_PLAYER), 0);
 	if (!init_textures(&game->textures, game->mlx.mlx_ptr))
 		return (ft_fprintf(2, ERR_TEX), 0);
+	// if (!init_texture_defaults(&game->textures) || !init_textures(&game->textures, game->mlx.mlx_ptr))
+	// 	return (ft_fprintf(2, ERR_TEX), 0);
 	return (1);
 }
 
@@ -48,6 +50,25 @@ int	init_game(t_game *game)
 	init_game_structures(game);
 	return (1);
 }
+
+// int	init_game(t_game *game, const char *map_path)
+// {
+// 	game->win_width = WIN_WIDTH;
+// 	game->win_height = WIN_HEIGHT;
+// 	if (!init_mlx(&game->mlx, game->win_width, game->win_height))
+// 		return (ft_fprintf(2, ERR_MLX), 0);
+// 	if (!init_map(game, map_path))
+// 	{
+// 		ft_fprintf(2, "Error: Failed to load map from file '%s'\n", map_path);
+// 		return (0);
+// 	}
+// 	if (!init_player_and_textures(game))
+// 		return (0);
+// 	if (!init_selfie_and_keys(game))
+// 		return (0);
+// 	init_game_structures(game);
+// 	return (1);
+// }
 
 // int	init_game(t_game *game, const char *map_path)
 // {
@@ -92,6 +113,12 @@ void	free_game(t_game *game)
 		free(game->selfie_cam.selfie_texture);
 	}
 	free_mlx(&game->mlx);
+	if (game->mlx.mlx_ptr)
+	{
+		mlx_destroy_display(game->mlx.mlx_ptr);
+		free(game->mlx.mlx_ptr);
+		game->mlx.mlx_ptr = NULL;
+	}
 }
 
 void	free_textures(t_texture *tex, void *mlx_ptr)

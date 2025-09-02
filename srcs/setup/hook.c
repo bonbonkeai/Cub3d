@@ -22,7 +22,7 @@ void	set_up_game(t_game *game)
 	// 窗口关闭按钮
 	mlx_hook(game->mlx.win_ptr, EVENT_EXIT, 0, exit_button, game);
 	// 启动时隐藏鼠标 + 定位到中心
-	mlx_mouse_hide(game->mlx.mlx_ptr, game->mlx.win_ptr);
+	// mlx_mouse_hide(game->mlx.mlx_ptr, game->mlx.win_ptr);
 	mlx_mouse_move(game->mlx.mlx_ptr, game->mlx.win_ptr, \
 			game->win_width / 2, game->win_height / 2);
 	mlx_loop_hook(game->mlx.mlx_ptr, render_game, game);
