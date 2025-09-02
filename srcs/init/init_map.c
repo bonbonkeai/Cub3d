@@ -112,6 +112,7 @@ int normalize_map(t_game *game, char **raw_lines, int line_count)
     char *new_line;
     int len;
     char **normalized_map;
+	int	j;
 
     if (!raw_lines || line_count <= 0)
         return (0);
@@ -145,6 +146,12 @@ int normalize_map(t_game *game, char **raw_lines, int line_count)
         if (len > max_width)
             len = max_width;
         ft_memcpy(new_line, raw_lines[i], len);
+		j = 0;
+		while (j++ < max_width)
+		{
+			if (new_line[j] == ' ')
+				new_line[j] = '1';
+		}
         normalized_map[i] = new_line;
         i++;
     }
