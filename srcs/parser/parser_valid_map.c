@@ -12,9 +12,8 @@
 
 #include "../../cub3d.h"
 
-int	validate_map_closed(char **map, int height, int width)
+static int	validate_width(char **map, int height, int width)
 {
-	int	i;
 	int	j;
 
 	if (!map || height <= 0 || width <= 0)
@@ -30,6 +29,13 @@ int	validate_map_closed(char **map, int height, int width)
 			return (0);
 		j++;
 	}
+	return (1);
+}
+
+static int	validate_height(char **map, int height, int width)
+{
+	int	i;
+
 	i = 0;
 	while (i < height)
 	{
@@ -41,6 +47,16 @@ int	validate_map_closed(char **map, int height, int width)
 			return (0);
 		i++;
 	}
+	return (1);
+}
+
+int	validate_map_closed(char **map, int height, int width)
+{
+	int	i;
+	int	j;
+
+	validate_width(map, height, width);
+	validate_height(map, height, width);
 	i = 1;
 	while (i < height - 1)
 	{
