@@ -86,6 +86,7 @@ int	parse_file(const char *filepath, t_game *game)
 	if (!validate_and_process_map(&parser, game))
 		return (ft_free_cub(&parser, fd));
 	save_data(&parser, game);
+	free(parser.textures);
 	close(fd);
 	return (1);
 }
