@@ -65,28 +65,33 @@ int	normalize_map(t_game *game, char **raw_lines, int line_count)
 	int		max_width;
 	char	*new_line;
 	int		len;
+	char	**new_map;
 
 	if (!raw_lines || line_count <= 0)
-        return (0);
+		return (0);
 	max_width = get_map_width(raw_lines);
 	if (max_width <= 0)
-        return (0);
+		return (0);
+	new_map = malloc(sizeof(char *) * (line_count + 1));
+	if (!new_map)
+		return (0);
+	new_map[line_count] = NULL;
 	i = 0;
 	while (i < line_count)
 	{
 		if (!raw_lines[i])
-        {
-            while (--i >= 0)
-                free(raw_lines[i]);
-            free(raw_lines);
-            return (0);
-        }
+		{
+			while (--i >= 0)
+				free(new_map[i]);
+			free(new_map);
+			return (0);
+		}
 		new_line = malloc(max_width + 1);
 		if (!new_line)
 		{
 			while (--i >= 0)
-				free(raw_lines[i]);
-			free(raw_lines);
+				free(new_map[i]);
+			free(new_map);
 			return (0);
 		}
 		ft_memset(new_line, ' ', max_width);
@@ -95,11 +100,10 @@ int	normalize_map(t_game *game, char **raw_lines, int line_count)
 		if (len > max_width)
 			len = max_width;
 		ft_memcpy(new_line, raw_lines[i], len);
-		free(raw_lines[i]);
-		raw_lines[i] = new_line;
+		new_map[i] = new_line;
 		i++;
 	}
-	game->map = raw_lines;
+	game->map = new_map;
 	game->map_height = line_count;
 	game->map_width = max_width;
 	return (1);
