@@ -28,7 +28,7 @@ static int	parse_north_texture(char *line, t_parse *parser)
 	if (!is_valid_texture_extension(path) || !is_file_accessible(path))
 	{
 		free(path);
-		return (error_msg("Invalid NORTH texture: must be accessible .xpm file"));
+		return (error_msg("Invalid NO texture: must be accessible .xpm file"));
 	}
 	parser->textures->no_path = path;
 	parser->got_no = 1;
@@ -51,7 +51,7 @@ static int	parse_south_texture(char *line, t_parse *parser)
 	if (!is_valid_texture_extension(path) || !is_file_accessible(path))
 	{
 		free(path);
-		return (error_msg("Invalid SOUTH texture: must be accessible .xpm file"));
+		return (error_msg("Invalid SO texture: must be accessible .xpm file"));
 	}
 	parser->textures->so_path = path;
 	parser->got_so = 1;
@@ -74,7 +74,7 @@ static int	parse_west_texture(char *line, t_parse *parser)
 	if (!is_valid_texture_extension(path) || !is_file_accessible(path))
 	{
 		free(path);
-		return (error_msg("Invalid WEST texture: must be accessible .xpm file"));
+		return (error_msg("Invalid WE texture: must be accessible .xpm file"));
 	}
 	parser->textures->we_path = path;
 	parser->got_we = 1;
@@ -97,7 +97,7 @@ static int	parse_east_texture(char *line, t_parse *parser)
 	if (!is_valid_texture_extension(path) || !is_file_accessible(path))
 	{
 		free(path);
-		return (error_msg("Invalid EAST texture: must be accessible .xpm file"));
+		return (error_msg("Invalid EA texture: must be accessible .xpm file"));
 	}
 	parser->textures->ea_path = path;
 	parser->got_ea = 1;

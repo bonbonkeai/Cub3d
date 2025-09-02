@@ -46,6 +46,7 @@ SRCS = \
 	srcs/parser/parser_memory.c \
 	srcs/parser/parser_config.c \
 	srcs/parser/data_saver.c \
+	srcs/parser/parser_init.c \
 
 OBJS = $(SRCS:.c=.o)
 

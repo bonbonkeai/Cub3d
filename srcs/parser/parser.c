@@ -16,7 +16,7 @@ static int	open_file(const char *filepath, t_parse *parser)
 {
 	int	fd;
 
-	init_parser(parser);
+	init_all_parser(parser);
 	if (!parser->textures)
 		return (error_msg("Memory allocation failed"));
 	fd = open(filepath, O_RDONLY);
@@ -100,7 +100,7 @@ int	parse_file(const char *filepath, t_game *game)
 	save_data(&parser, game);
 	free(parser.textures);
 	if (parser.raw_lines)
-        free_raw_lines(parser.raw_lines, parser.raw_count);
+		free_raw_lines(parser.raw_lines, parser.raw_count);
 	close(fd);
 	return (1);
 }
