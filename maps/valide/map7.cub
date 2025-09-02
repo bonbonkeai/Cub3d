@@ -1,7 +1,7 @@
-NO ./textures/mur/north.xpm
-SO ./textures/mur/south.xpm
-WE ./textures/mur/west.xpm
-EA ./textures/mur/east.xpm
+NO ./textures/mur/north5.xpm
+SO ./textures/mur/south5.xpm
+WE ./textures/mur/west5.xpm
+EA ./textures/mur/east5.xpm
 F 107,142,35
 C 135,206,235
 
