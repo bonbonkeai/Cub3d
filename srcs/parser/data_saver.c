@@ -36,3 +36,15 @@ void	free_map(char **map)
 	}
 	free(map);
 }
+
+void	cleanup_get_next_line(int fd)
+{
+	char	*line;
+
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+}

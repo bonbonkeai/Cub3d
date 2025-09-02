@@ -33,6 +33,11 @@ void	init_parser(t_parse *p)
 
 int	ft_free_cub(t_parse *parser, int fd)
 {
+	if (fd >= 0)
+	{
+		cleanup_get_next_line(fd);
+		close(fd);
+	}
 	if (parser->textures)
 	{
 		if (parser->textures->no_path)
